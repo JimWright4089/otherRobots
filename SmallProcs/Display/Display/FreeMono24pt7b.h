@@ -473,7 +473,7 @@ const uint8_t FreeMono24pt7bBitmaps[] PROGMEM = {
     0x8E, 0xC0, 0x1F, 0xC0, 0x00, 0xF0};
 
 const GFXglyph FreeMono24pt7bGlyphs[] PROGMEM = {
-    {0, 0, 0, 28, 0, 1},        // 0x20 ' '
+    {0, 16, 0, 28, 0, 1},        // 0x20 ' '
     {0, 5, 30, 28, 11, -28},    // 0x21 '!'
     {19, 16, 14, 28, 6, -28},   // 0x22 '"'
     {47, 19, 32, 28, 4, -29},   // 0x23 '#'

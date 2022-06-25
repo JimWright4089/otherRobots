@@ -1,4 +1,4 @@
-#include "Jims_Font.h"
+#include "JimsFont.h"
 
 inline GFXglyph *pgm_read_glyph_ptr(const GFXfont *gfxFont, uint8_t c) {
 #ifdef __AVR__
@@ -24,28 +24,39 @@ inline uint8_t *pgm_read_bitmap_ptr(const GFXfont *gfxFont) {
 #endif //__AVR__
 }
 
-Jims_Font::Jims_Font(LCD320240_4WSPI* myTFT)
+JimsFont::JimsFont(LCD320240_4WSPI* myTFT)
 {
   mTFT = myTFT;
 }
 
-void Jims_Font::setFont(const GFXfont *f) 
+void JimsFont::setFont(const GFXfont *f) 
 {
   mGfxFont = (GFXfont *)f;
 }
 
-void Jims_Font::setLocation(int x, int y) 
+void JimsFont::setLocation(int x, int y) 
 {
   mCursorX = x;
   mCursorY = y;
 }
 
-void Jims_Font::setTextColor(ILI9341_color_16_t color)
+void JimsFont::setTextColor(ILI9341_color_16_t color)
 {
   mColor = color;
 }
 
-void Jims_Font::drawChar(unsigned char c) 
+void JimsFont::drawString(const char *c)
+{
+  unsigned char *ptr = (unsigned char *)c;
+  while(0 != *ptr)
+  {
+    drawChar(*ptr);
+    ptr++;  
+  }
+}
+
+
+void JimsFont::drawChar(unsigned char c) 
 {
   if(NULL == mTFT)
   {

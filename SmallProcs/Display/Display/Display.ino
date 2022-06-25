@@ -1,4 +1,6 @@
-#include "HyperDisplay_4DLCD-320240_4WSPI.h"
+#include<SparkFun_MicroMod_Button.h>
+#include<Wire.h>
+#include "JimsFont.h"
 
 #define SERIAL_PORT Serial    // Allows users to easily change target serial port (e.g. SAMD21's SerialUSB)
 
@@ -8,35 +10,81 @@
 #define SPI_PORT SPI
 #define SPI_SPEED 32000000        // Requests host uC to use the fastest possible SPI speed up to 32 MHz
 
-LCD320240_4WSPI myTFT;
+#define LABEL_INFO "Information"
+#define LABEL_LOC  "Locaton"
+#define LABEL_BATT "Battery"
+#define LABEL_STAT "Robot Status"
 
-ILI9341_color_16_t defaultColor; // Global objects are used for default colors so that they are always in-scope
+#define NAV_INFO 0
+#define NAV_LOC  1
+#define NAV_BATT 2
+#define NAV_STAT 3
+#define NAV_MAX  4
+
+LCD320240_4WSPI myTFT;
+JimsFont font(&myTFT);
+int screenStatus = NAV_INFO;
+MicroModButton button;
 
 void setup() {
   SERIAL_PORT.begin(115200);
-  SERIAL_PORT.println("Example1 Display Test : SparkFun TFT LCD 2.4in");
+  SERIAL_PORT.println("TurtleBot4 Display");
+
+  Wire.begin();
+  delay(100); //Wait for serial port to open
+  
+  if(!button.begin()) //Connect to the buttons 
+  {
+    Serial.println("Buttons not found");
+    while(1);
+  }
 
   myTFT.begin(DC_PIN, CS_PIN, PWM_PIN, SPI_PORT, SPI_SPEED);
   myTFT.setInterfacePixelFormat(ILI9341_PXLFMT_16);
   myTFT.clearDisplay();
 
-  myTFT.setTextCursor(0,0);            // Sets the cursor relative to the current window, however the current (default) window is equivalent to the whole display. (0,0) is the upper left corner and (myTFT.xExt-1, myTFT.yExt-1) is the lower right
-  myTFT.setCurrentWindowColorSequence((color_t)&defaultColor);
-
-  uint16_t hue = HSV_HUE_MIN;
-  while(hue <= HSV_HUE_MAX){
-    myTFT.setTextCursor(0,0);
-    defaultColor = myTFT.hsvTo16b( hue+=30, 255, 255 );
-    myTFT.println("Hello world!");   // Prints using the default font at the cursor location
-    delay(500);
-  }
-
+//  ILI9341_color_16_t defaultColor = myTFT.rgbTo16b( 255, 255, 255);
+  font.setFont(&FreeSans18pt7b);
 
   frame();
 }
 
+uint8_t oldPressed = 0;
+
 void loop() {
-    delay(500);
+  if(button.getPressedInterrupt())  //Check to see if a button has been pressed
+  {
+    uint8_t pressed = button.getPressed(); //Read which button has been pressed
+    
+    if(pressed & 0x01)
+    {
+      Serial.println("Button A pressed!");
+    }
+    if(pressed & 0x02)
+    {
+      Serial.println("Button B pressed!");
+    }
+    if(pressed & 0x04)
+    {
+      if((0 == oldPressed)&&(NAV_INFO != screenStatus))
+      {
+        screenStatus--;
+        frame();
+      }
+      Serial.println("Button UP pressed!");
+    }
+    if(pressed & 0x08)
+    {
+      if((0 == oldPressed)&&(NAV_STAT != screenStatus))
+      {
+        screenStatus++;
+        frame();
+      }
+      Serial.println("Button DOWN pressed!");
+    }
+    oldPressed = pressed;
+  }
+  delay(100);
 }
 
 void frame()
@@ -55,11 +103,23 @@ void frame()
     myTFT.line(indi,0,indi,319,1,(color_t)&color);
   }
 
-  for(uint8_t indi = 0; indi < 6; indi+=1)
+  font.setTextColor(color);
+  font.setLocation(15,210);
+  font.drawString(getLabel());
+}
+
+char *getLabel()
+{
+  switch(screenStatus)
   {
-    myTFT.line(0,98+indi,37,98+indi,1,(color_t)&color);
-    myTFT.line(0,228+indi,37,228+indi,1,(color_t)&color);
+    case(NAV_LOC):
+      return LABEL_LOC;
+    case(NAV_BATT):
+      return LABEL_BATT;
+    case(NAV_STAT):
+      return LABEL_STAT;
+    default:
+      screenStatus = NAV_INFO;
+      return LABEL_INFO;
   }
-
-
 }

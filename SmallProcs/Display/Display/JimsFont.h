@@ -10,14 +10,15 @@
 #include "FreeSans18pt7b.h"
 #include "FreeSans24pt7b.h"
 
-class Jims_Font 
+class JimsFont 
 {
 public:
-  Jims_Font(LCD320240_4WSPI* myTFT);
+  JimsFont(LCD320240_4WSPI* myTFT);
   void setFont(const GFXfont *f);
   void setLocation(int x, int y);
   void setTextColor(ILI9341_color_16_t color);
   void drawChar(unsigned char c);
+  void drawString(const char *c);
 
 protected:
   ILI9341_color_16_t mColor; 
