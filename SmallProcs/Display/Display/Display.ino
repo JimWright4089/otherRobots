@@ -91,6 +91,7 @@ void frame()
 {
   myTFT.clearDisplay();
   ILI9341_color_16_t color;
+  font.setFont(&FreeSans18pt7b);
 
   color = myTFT.rgbTo16b( 255, 255, 255 );
   for(uint8_t indi = 0; indi < 5; indi+=1)
@@ -106,6 +107,24 @@ void frame()
   font.setTextColor(color);
   font.setLocation(15,210);
   font.drawString(getLabel());
+
+  switch(screenStatus)
+  {
+    case(NAV_LOC):
+      displayLocation();
+      break;
+    case(NAV_BATT):
+      displayBattery();
+      break;
+    case(NAV_STAT):
+      displayRobotStatus();
+      break;
+    default:
+      displayInformation();
+      break;
+  }
+
+
 }
 
 char *getLabel()
@@ -123,3 +142,96 @@ char *getLabel()
       return LABEL_INFO;
   }
 }
+
+void displayInformation()
+{
+  ILI9341_color_16_t color;
+  color = myTFT.rgbTo16b( 255, 255, 255 );
+  font.setFont(&FreeSans12pt7b);
+  font.setTextColor(color);
+  font.setLocation(10,12);
+  font.drawString("Status:");
+  font.setLocation(10,38);
+  font.drawString("IP:");
+  font.setLocation(10,64);
+  font.drawString("Docked:");
+}
+
+void displayLocation()
+{
+  ILI9341_color_16_t color;
+  color = myTFT.rgbTo16b( 255, 255, 255 );
+  font.setFont(&FreeSans12pt7b);
+  font.setTextColor(color);
+  font.setLocation(10,12);
+  font.drawString("Map:");
+  font.setLocation(10,38);
+  font.drawString("X:");
+  font.setLocation(175,38);
+  font.drawString("Y:");
+  font.setLocation(10,64);
+  font.drawString("Theta:");
+  font.setLocation(10,90);
+  font.drawString("Lat:");
+  font.setLocation(10,116);
+  font.drawString("Long:");
+}
+
+void displayBattery()
+{
+  ILI9341_color_16_t color;
+  color = myTFT.rgbTo16b( 255, 255, 255 );
+  font.setFont(&FreeSans12pt7b);
+  font.setTextColor(color);
+  font.setLocation(10,12);
+  font.drawString("Charge:");
+  font.setLocation(10,38);
+  font.drawString("Volts:");
+  font.setLocation(10,64);
+  font.drawString("Current:");
+  font.setLocation(10,90);
+  font.drawString("Temp:");
+}
+void displayRobotStatus()
+{
+  
+}
+
+
+
+
+
+/*
+#include <Wire.h>
+
+void setup()
+{
+  Wire.begin(43);                // join i2c bus with address #4
+  Wire.onReceive(receiveEvent); // register event
+  Serial.begin(115200);           // start serial for output
+}
+
+void loop()
+{
+  delay(100);
+}
+
+// function that executes whenever data is received from master
+// this function is registered as an event, see setup()
+void receiveEvent(int howMany)
+{
+  (void)howMany; // avoid compiler warning about unused parameter
+  int command = Wire.read(); // receive byte as a character
+  Serial.print(command);         // print the character
+  Serial.print(":");         // print the character
+  
+  while(0 < Wire.available()) // loop through all but the last
+  {
+    int c = Wire.read(); // receive byte as a character
+    Serial.print(c);         // print the character
+    Serial.print(" ");         // print the character
+  }
+  Serial.println(" ");         // print the character
+}
+*/
+ 
