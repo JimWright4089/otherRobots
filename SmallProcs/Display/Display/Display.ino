@@ -1,7 +1,9 @@
 #include<SparkFun_MicroMod_Button.h>
 #include<Wire.h>
 #include "JimsFont.h"
-
+#include "DisplayLine.h"
+#include "GlobalData.h"
+ 
 #define SERIAL_PORT Serial    // Allows users to easily change target serial port (e.g. SAMD21's SerialUSB)
 
 #define PWM_PIN PWM0             // Pin definitions
@@ -23,21 +25,62 @@
 
 LCD320240_4WSPI myTFT;
 JimsFont font(&myTFT);
-int screenStatus = NAV_INFO;
+int screenStatus = NAV_BATT;
 MicroModButton button;
+DisplayLine gStatusLine(10,12,"Status: ",(void*)&gStatus,&formatterByte);
+DisplayLine gIPLine(10,38,"IP: ",(void*)&gIP,&formatterIP);
+DisplayLine gDockerLine(10,64,"Docked: ",(void*)&gDocked,&formatterDock);
+
+
+DisplayLine gMapNameLine(10,12,"Map: ",(void*)&gMapName,&formatterString);
+DisplayLine gXMeterLine(10,38,"X: ",(void*)&gXMeters,formatterInt16Fixed);
+DisplayLine gYMeterLine(175,38,"Y: ",(void*)&gYMeters,formatterInt16Fixed);
+DisplayLine gThetaLine(10,64,"Theta: ",(void*)&gTheta,formatterInt16Fixed);
+DisplayLine gLatLine(10,90,"Lat: ",(void*)&gLat,formatterFloat);
+DisplayLine gLongLine(10,116,"Long: ",(void*)&gLong,formatterFloat);
+
+DisplayLine gChargeLine(10,12,"Charge: ",(void*)&gCharge,formatterCharge);
+DisplayLine gVoltsLine(10,38,"Volts: ",(void*)&gVolt,formatterInt16Fixed);
+DisplayLine gCurrentLine(10,64,"Current: ",(void*)&gCurrent,formatterInt16Fixed);
+DisplayLine gTempLine(10,90,"Temp: ",(void*)&gTemp,formatterInt16Fixed);
+
+
+/*
+extern uint8_t ;
+extern int16_t ;
+extern int16_t ;
+extern int16_t ;
+extern uint16_t gRSCaution;
+extern uint16_t gRSWarning;
+extern uint16_t gRSStatus;
+extern uint16_t gRSInfo;
+*/
 
 void setup() {
   SERIAL_PORT.begin(115200);
   SERIAL_PORT.println("TurtleBot4 Display");
 
+  delay(2500);
+
   Wire.begin();
-  delay(100); //Wait for serial port to open
-  
+  Serial.println("!A");
   if(!button.begin()) //Connect to the buttons 
   {
     Serial.println("Buttons not found");
     while(1);
   }
+
+  Wire.begin(43);
+  Wire.onReceive(receiveEvent);
+
+  Serial.println("A");
+  for(int i=0;i<INDEX_MAX;i++)
+  {
+    gStatusFlag[i] = 0;
+    gDisplayFlag[i] = 0;
+  }
+  
+  Serial.println("B");
 
   myTFT.begin(DC_PIN, CS_PIN, PWM_PIN, SPI_PORT, SPI_SPEED);
   myTFT.setInterfacePixelFormat(ILI9341_PXLFMT_16);
@@ -46,12 +89,19 @@ void setup() {
 //  ILI9341_color_16_t defaultColor = myTFT.rgbTo16b( 255, 255, 255);
   font.setFont(&FreeSans18pt7b);
 
+  Serial.println("C");
   frame();
+  Serial.println("D");
 }
 
 uint8_t oldPressed = 0;
 
 void loop() {
+//  Serial.println("Check Status");
+  checkStatus();
+//  Serial.println("Check Status Finished");
+
+/*  
   if(button.getPressedInterrupt())  //Check to see if a button has been pressed
   {
     uint8_t pressed = button.getPressed(); //Read which button has been pressed
@@ -84,9 +134,68 @@ void loop() {
     }
     oldPressed = pressed;
   }
+*/  
+
+  bool redraw = false;
+  if(NAV_INFO ==screenStatus)
+  {
+    for(int i=0;i<3;i++)
+    {
+      if(1 == gDisplayFlag[i])
+      {
+        Serial.print("redraw:");
+        Serial.print(i);
+        Serial.println(" ");
+  
+        redraw = true;
+        gDisplayFlag[i] = 0;
+      }
+    }
+  }
+  if(NAV_BATT ==screenStatus)
+  {
+    for(int i=8;i<12;i++)
+    {
+      if(1 == gDisplayFlag[i])
+      {
+        Serial.print("redraw:");
+        Serial.print(i);
+        Serial.println(" ");
+  
+        redraw = true;
+        gDisplayFlag[i] = 0;
+      }
+    }
+  }
+  if(NAV_LOC ==screenStatus)
+  {
+    for(int i=3;i<8;i++)
+    {
+      if(1 == gDisplayFlag[i])
+      {
+        Serial.print("redraw:");
+        Serial.print(i);
+        Serial.println(" ");
+  
+        redraw = true;
+        gDisplayFlag[i] = 0;
+      }
+    }
+    if(1 == gDisplayFlag[INDEX_MAP_NAME])
+    {
+      Serial.println("Map Name ");
+
+      redraw = true;
+      gDisplayFlag[INDEX_MAP_NAME] = 0;
+    }
+  }
+  if(true == redraw)
+  {
+      frame();
+  }
+  
   delay(100);
 }
-
 void frame()
 {
   myTFT.clearDisplay();
@@ -123,8 +232,6 @@ void frame()
       displayInformation();
       break;
   }
-
-
 }
 
 char *getLabel()
@@ -142,19 +249,17 @@ char *getLabel()
       return LABEL_INFO;
   }
 }
-
+  
 void displayInformation()
 {
   ILI9341_color_16_t color;
   color = myTFT.rgbTo16b( 255, 255, 255 );
   font.setFont(&FreeSans12pt7b);
   font.setTextColor(color);
-  font.setLocation(10,12);
-  font.drawString("Status:");
-  font.setLocation(10,38);
-  font.drawString("IP:");
-  font.setLocation(10,64);
-  font.drawString("Docked:");
+
+  gStatusLine.drawString(font);
+  gIPLine.drawString(font);
+  gDockerLine.drawString(font);
 }
 
 void displayLocation()
@@ -163,18 +268,14 @@ void displayLocation()
   color = myTFT.rgbTo16b( 255, 255, 255 );
   font.setFont(&FreeSans12pt7b);
   font.setTextColor(color);
-  font.setLocation(10,12);
-  font.drawString("Map:");
-  font.setLocation(10,38);
-  font.drawString("X:");
-  font.setLocation(175,38);
-  font.drawString("Y:");
-  font.setLocation(10,64);
-  font.drawString("Theta:");
-  font.setLocation(10,90);
-  font.drawString("Lat:");
-  font.setLocation(10,116);
-  font.drawString("Long:");
+
+  gMapNameLine.drawString(font);
+  gXMeterLine.drawString(font);
+  gYMeterLine.drawString(font);
+  gThetaLine.drawString(font);
+  gLatLine.drawString(font);
+  gLongLine.drawString(font);
+  
 }
 
 void displayBattery()
@@ -183,55 +284,37 @@ void displayBattery()
   color = myTFT.rgbTo16b( 255, 255, 255 );
   font.setFont(&FreeSans12pt7b);
   font.setTextColor(color);
-  font.setLocation(10,12);
-  font.drawString("Charge:");
-  font.setLocation(10,38);
-  font.drawString("Volts:");
-  font.setLocation(10,64);
-  font.drawString("Current:");
-  font.setLocation(10,90);
-  font.drawString("Temp:");
+
+  gChargeLine.drawString(font);
+  gVoltsLine.drawString(font);
+  gCurrentLine.drawString(font);
+  gTempLine.drawString(font);
 }
+
 void displayRobotStatus()
 {
   
 }
 
-
-
-
-
-/*
-#include <Wire.h>
-
-void setup()
-{
-  Wire.begin(43);                // join i2c bus with address #4
-  Wire.onReceive(receiveEvent); // register event
-  Serial.begin(115200);           // start serial for output
-}
-
-void loop()
-{
-  delay(100);
-}
-
-// function that executes whenever data is received from master
-// this function is registered as an event, see setup()
 void receiveEvent(int howMany)
 {
   (void)howMany; // avoid compiler warning about unused parameter
   int command = Wire.read(); // receive byte as a character
   Serial.print(command);         // print the character
   Serial.print(":");         // print the character
+  int theLocation = command - LOC_START;
   
   while(0 < Wire.available()) // loop through all but the last
   {
     int c = Wire.read(); // receive byte as a character
+    gTotal[theLocation] = c;
+    theLocation++;
     Serial.print(c);         // print the character
     Serial.print(" ");         // print the character
   }
   Serial.println(" ");         // print the character
+  gStatusFlag[getIndex(command)] =1;
+  gDisplayFlag[getIndex(command)] =1;
 }
-*/
+
  
