@@ -23,26 +23,35 @@
 #define NAV_STAT 3
 #define NAV_MAX  4
 
+ILI9341_color_16_t smallWindowMem[240*320];
+//ILI9341_color_16_t fullWindowMem[240*320];
+wind_info_t smallWindow;
+wind_info_t fullWindow;
+
+#define TOP 45
+#define LEFT 10
+#define WIDTH 300
+#define HEIGHT 185
+
 LCD320240_4WSPI myTFT;
 JimsFont font(&myTFT);
-int screenStatus = NAV_BATT;
+int screenStatus = NAV_INFO;
 MicroModButton button;
-DisplayLine gStatusLine(10,12,"Status: ",(void*)&gStatus,&formatterByte);
-DisplayLine gIPLine(10,38,"IP: ",(void*)&gIP,&formatterIP);
-DisplayLine gDockerLine(10,64,"Docked: ",(void*)&gDocked,&formatterDock);
+DisplayLine gStatusLine(5,64,"Status: ",(void*)&gStatus,&formatterByte);
+DisplayLine gIPLine(5,90,"IP: ",(void*)&gIP,&formatterIP);
+DisplayLine gDockerLine(5,116,"Docked: ",(void*)&gDocked,&formatterDock);
 
+DisplayLine gMapNameLine(5,64,"Map: ",(void*)&gMapName,&formatterString);
+DisplayLine gXMeterLine(5,90,"X: ",(void*)&gXMeters,formatterInt16Fixed);
+DisplayLine gYMeterLine(170,90,"Y: ",(void*)&gYMeters,formatterInt16Fixed);
+DisplayLine gThetaLine(5,116,"Theta: ",(void*)&gTheta,formatterInt16Fixed);
+DisplayLine gLatLine(5,142,"Lat: ",(void*)&gLat,formatterFloat);
+DisplayLine gLongLine(5,168,"Long: ",(void*)&gLong,formatterFloat);
 
-DisplayLine gMapNameLine(10,12,"Map: ",(void*)&gMapName,&formatterString);
-DisplayLine gXMeterLine(10,38,"X: ",(void*)&gXMeters,formatterInt16Fixed);
-DisplayLine gYMeterLine(175,38,"Y: ",(void*)&gYMeters,formatterInt16Fixed);
-DisplayLine gThetaLine(10,64,"Theta: ",(void*)&gTheta,formatterInt16Fixed);
-DisplayLine gLatLine(10,90,"Lat: ",(void*)&gLat,formatterFloat);
-DisplayLine gLongLine(10,116,"Long: ",(void*)&gLong,formatterFloat);
-
-DisplayLine gChargeLine(10,12,"Charge: ",(void*)&gCharge,formatterCharge);
-DisplayLine gVoltsLine(10,38,"Volts: ",(void*)&gVolt,formatterInt16Fixed);
-DisplayLine gCurrentLine(10,64,"Current: ",(void*)&gCurrent,formatterInt16Fixed);
-DisplayLine gTempLine(10,90,"Temp: ",(void*)&gTemp,formatterInt16Fixed);
+DisplayLine gChargeLine(5,64,"Charge: ",(void*)&gCharge,formatterCharge);
+DisplayLine gVoltsLine(5,90,"Volts: ",(void*)&gVolt,formatterInt16Fixed);
+DisplayLine gCurrentLine(5,116,"Current: ",(void*)&gCurrent,formatterInt16Fixed);
+DisplayLine gTempLine(5,142,"Temp: ",(void*)&gTemp,formatterInt16Fixed);
 
 
 /*
@@ -86,8 +95,24 @@ void setup() {
   myTFT.setInterfacePixelFormat(ILI9341_PXLFMT_16);
   myTFT.clearDisplay();
 
-//  ILI9341_color_16_t defaultColor = myTFT.rgbTo16b( 255, 255, 255);
+  ILI9341_color_16_t defaultColor = myTFT.rgbTo16b( 255, 255, 255);
   font.setFont(&FreeSans18pt7b);
+
+  myTFT.setWindowDefaults(&smallWindow);
+  smallWindow.xMin = TOP;
+  smallWindow.yMin = LEFT;
+  smallWindow.xMax = TOP + (HEIGHT-1);
+  smallWindow.yMax = LEFT + (WIDTH-1);
+  myTFT.setWindowColorSequence(&smallWindow, (color_t)&defaultColor);
+  myTFT.setWindowMemory(&smallWindow, (color_t)smallWindowMem, 240*320);
+
+  myTFT.setWindowDefaults(&fullWindow);
+  fullWindow.xMin = 0;
+  fullWindow.yMin = 0;
+  fullWindow.xMax = 239;
+  fullWindow.yMax = 319;
+  myTFT.setWindowColorSequence(&fullWindow, (color_t)&defaultColor);
+  myTFT.setWindowMemory(&fullWindow, (color_t)smallWindowMem, 240*320);
 
   Serial.println("C");
   frame();
@@ -189,16 +214,35 @@ void loop() {
       gDisplayFlag[INDEX_MAP_NAME] = 0;
     }
   }
+
   if(true == redraw)
   {
-      frame();
+    switch(screenStatus)
+    {
+      case(NAV_LOC):
+        displayLocation();
+        break;
+      case(NAV_BATT):
+        displayBattery();
+        break;
+      case(NAV_STAT):
+        displayRobotStatus();
+        break;
+      default:
+        displayInformation();
+        break;
+    }
   }
   
-  delay(100);
+  delay(10);
 }
 void frame()
 {
-  myTFT.clearDisplay();
+  myTFT.pCurrentWindow = &fullWindow;
+  myTFT.buffer();                     
+  ILI9341_color_16_t smallBGcolor = myTFT.rgbTo16b( 0, 0, 0 );
+  myTFT.fillWindow((color_t)&smallBGcolor);
+
   ILI9341_color_16_t color;
   font.setFont(&FreeSans18pt7b);
 
@@ -216,6 +260,10 @@ void frame()
   font.setTextColor(color);
   font.setLocation(15,210);
   font.drawString(getLabel());
+
+  myTFT.pCurrentWindow = &fullWindow;  // Switch back to small window
+  myTFT.show();
+  myTFT.pCurrentWindow = &hyperdisplayDefaultWindow;  // Switch back to default window
 
   switch(screenStatus)
   {
@@ -252,43 +300,53 @@ char *getLabel()
   
 void displayInformation()
 {
-  ILI9341_color_16_t color;
-  color = myTFT.rgbTo16b( 255, 255, 255 );
-  font.setFont(&FreeSans12pt7b);
-  font.setTextColor(color);
-
+  startDisplay();
   gStatusLine.drawString(font);
   gIPLine.drawString(font);
   gDockerLine.drawString(font);
+  endDisplay();
 }
 
 void displayLocation()
 {
-  ILI9341_color_16_t color;
-  color = myTFT.rgbTo16b( 255, 255, 255 );
-  font.setFont(&FreeSans12pt7b);
-  font.setTextColor(color);
-
+  startDisplay();
   gMapNameLine.drawString(font);
   gXMeterLine.drawString(font);
   gYMeterLine.drawString(font);
   gThetaLine.drawString(font);
   gLatLine.drawString(font);
   gLongLine.drawString(font);
-  
+  endDisplay();
 }
 
 void displayBattery()
 {
-  ILI9341_color_16_t color;
-  color = myTFT.rgbTo16b( 255, 255, 255 );
-  font.setFont(&FreeSans12pt7b);
-  font.setTextColor(color);
-
+  startDisplay();
   gChargeLine.drawString(font);
   gVoltsLine.drawString(font);
   gCurrentLine.drawString(font);
   gTempLine.drawString(font);
+  endDisplay();
+}
+
+void startDisplay()
+{
+  myTFT.pCurrentWindow = &smallWindow;
+  myTFT.buffer();                     
+  ILI9341_color_16_t smallBGcolor = myTFT.rgbTo16b( 0, 0, 0 );
+  myTFT.fillWindow((color_t)&smallBGcolor);
+
+  ILI9341_color_16_t color;
+  color = myTFT.rgbTo16b( 255, 255, 255 );
+  font.setFont(&FreeSans12pt7b);
+  font.setTextColor(color);
+}
+
+void endDisplay()
+{
+  myTFT.pCurrentWindow = &smallWindow;  // Switch back to small window
+  myTFT.show();
+  myTFT.pCurrentWindow = &hyperdisplayDefaultWindow;  // Switch back to default window
 }
 
 void displayRobotStatus()
