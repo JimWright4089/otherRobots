@@ -246,7 +246,7 @@ void frame()
   ILI9341_color_16_t color;
   font.setFont(&FreeSans18pt7b);
 
-  color = myTFT.rgbTo16b( 255, 255, 255 );
+  color = myTFT.rgbTo16b( 155, 155, 155 );
   for(uint8_t indi = 0; indi < 5; indi+=1)
   {
     myTFT.rectangle(0+indi, 0+indi, 239-indi, 319-indi, false, (color_t)&color);
@@ -257,6 +257,7 @@ void frame()
     myTFT.line(indi,0,indi,319,1,(color_t)&color);
   }
 
+  color = myTFT.rgbTo16b( 255, 0, 255 );
   font.setTextColor(color);
   font.setLocation(15,210);
   font.drawString(getLabel());
