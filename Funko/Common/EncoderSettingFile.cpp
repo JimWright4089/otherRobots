@@ -130,7 +130,7 @@ double EncoderSettingFile::getTicksPerDegree()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-void EncoderSettingFile::calibrateEncoders(PropertyFile* propFile, JimsInput* magnet, JimsRobotClaw* motor)
+void EncoderSettingFile::calibrateEncoders(JimsInput* magnet, JimsRobotClaw* motor)
 {
     bool value = false;;
     int32_t encoder = 0;
@@ -138,9 +138,9 @@ void EncoderSettingFile::calibrateEncoders(PropertyFile* propFile, JimsInput* ma
     double normalSpeed = 0.0;
     uint16_t frameWaitTimeMs = 20;
 
-    fastSpeed = propFile->getDouble("FastSpeed");
-    normalSpeed = propFile->getDouble("NormalSpeed");
-    frameWaitTimeMs = propFile->getInt("FrameWaitTimeMs");
+    fastSpeed = PropertyFile::getInstance()->getFastSpeed();
+    normalSpeed = PropertyFile::getInstance()->getNormalSpeed();
+    frameWaitTimeMs = PropertyFile::getInstance()->getFrameWaitTimeMs();
 
     if(false == magnet->valid())
     {

@@ -38,22 +38,32 @@ class PropertyFile
     //----------------------------------------------------------------------------
     //  Class Methods
     //----------------------------------------------------------------------------
-    PropertyFile();
-    PropertyFile(std::string fileName);
-    virtual ~PropertyFile() {}
+    static PropertyFile* getInstance();
+
     void loadFile(std::string fileName);
 
+    void printTree();
+
+    double getSlowSpeed();
+    uint16_t getFrameWaitTimeMs();
+    int16_t getDegreeOffSet();
+    double getFastSpeed();
+    double getNormalSpeed();
+    double getDegreesPerPicture();
+
+  private:
+    PropertyFile();
+    virtual ~PropertyFile() {}
     std::string getString(std::string entry);
     int getInt(std::string entry);
     double getDouble(std::string entry);
-    void printTree();
 
-  private:
     //----------------------------------------------------------------------------
     //  Class Atributes
     //----------------------------------------------------------------------------
     std::string mFileName = "";
     boost::property_tree::ptree mProperyTree;
+    static PropertyFile* mInstance;
 
     //----------------------------------------------------------------------------
     //  Class Methods

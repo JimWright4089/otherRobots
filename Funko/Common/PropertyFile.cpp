@@ -18,7 +18,27 @@
 #include <fstream>
 #include <stdint.h>
 #include "Common.h"
+#include <stdio.h>
 #include "PropertyFile.h"
+
+
+PropertyFile* PropertyFile::mInstance=NULL;
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+PropertyFile* PropertyFile::getInstance()
+{
+    if(NULL == mInstance)
+    {
+        mInstance = new PropertyFile();
+    }
+    return mInstance;
+}
 
 // --------------------------------------------------------------------
 // Purpose:
@@ -29,18 +49,6 @@
 // --------------------------------------------------------------------
 PropertyFile::PropertyFile()
 {
-}
-
-// --------------------------------------------------------------------
-// Purpose:
-// Return the value with a dead band where it is zero
-//
-// Notes:
-// None.
-// --------------------------------------------------------------------
-PropertyFile::PropertyFile(std::string fileName)
-{
-    loadFile(fileName);
 }
 
 // --------------------------------------------------------------------
@@ -172,3 +180,32 @@ void PropertyFile::printTree()
     printTree(mProperyTree,0);
 }
 
+double PropertyFile::getSlowSpeed()
+{
+    return getDouble("SlowSpeed");
+}
+
+uint16_t PropertyFile::getFrameWaitTimeMs()
+{
+    return getInt("FrameWaitTimeMs");
+}
+
+int16_t PropertyFile::getDegreeOffSet()
+{
+    return getInt("DegreeOffSet");
+}
+
+double PropertyFile::getFastSpeed()
+{
+    return getDouble("FastSpeed");
+}
+
+double PropertyFile::getNormalSpeed()
+{
+    return getDouble("NormalSpeed");
+}
+
+double PropertyFile::getDegreesPerPicture()
+{
+    return getDouble("DegreesPerPicture");
+}

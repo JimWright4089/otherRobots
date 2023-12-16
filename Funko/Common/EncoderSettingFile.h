@@ -52,7 +52,7 @@ class EncoderSettingFile
     int32_t getHalfMagnetSize();
     int32_t getDiskSize();
     double getTicksPerDegree();
-    void calibrateEncoders(PropertyFile* propFile, JimsInput* magnet, JimsRobotClaw* motor);
+    void calibrateEncoders(JimsInput* magnet, JimsRobotClaw* motor);
 
   private:
 

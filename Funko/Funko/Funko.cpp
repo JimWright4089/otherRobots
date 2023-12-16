@@ -31,13 +31,13 @@
 JimsInput gMagnet(17);
 JimsRobotClaw gMotor("/dev/robotclaw",  38400);
 
-void turnDegrees(PropertyFile* propFile, int32_t ticks)
+void turnDegrees(int32_t ticks)
 {
     int32_t encoder = gMotor.getRightEncoder();
 
-    double slowSpeed = propFile->getDouble("SlowSpeed");
-    uint16_t frameWaitTimeMs = propFile->getInt("FrameWaitTimeMs");
-    int degreeOffset = propFile->getInt("DegreeOffSet");
+    double slowSpeed = PropertyFile::getInstance()->getSlowSpeed();
+    uint16_t frameWaitTimeMs = PropertyFile::getInstance()->getFrameWaitTimeMs();
+    int degreeOffset = PropertyFile::getInstance()->getDegreeOffSet();
 
     int32_t goalTicks = encoder + ticks - degreeOffset;
     gMotor.setRightMotor(slowSpeed);
@@ -54,7 +54,7 @@ void turnDegrees(PropertyFile* propFile, int32_t ticks)
 
 }
 
-void centerOnMagnet(PropertyFile* propFile, int32_t mHalfMagnetsize)
+void centerOnMagnet(int32_t mHalfMagnetsize)
 {
     bool value = false;
     int32_t encoder = 0;
@@ -62,9 +62,9 @@ void centerOnMagnet(PropertyFile* propFile, int32_t mHalfMagnetsize)
     double normalSpeed = 0.0;
     uint16_t frameWaitTimeMs = 20;
 
-    fastSpeed = propFile->getDouble("FastSpeed");
-    normalSpeed = propFile->getDouble("NormalSpeed");
-    frameWaitTimeMs = propFile->getInt("FrameWaitTimeMs");
+    fastSpeed = PropertyFile::getInstance()->getFastSpeed();
+    normalSpeed = PropertyFile::getInstance()->getNormalSpeed();
+    frameWaitTimeMs = PropertyFile::getInstance()->getFrameWaitTimeMs();
 
     if(false == gMagnet.valid())
     {
@@ -126,8 +126,6 @@ void centerOnMagnet(PropertyFile* propFile, int32_t mHalfMagnetsize)
     gMotor.setRightEncoder(0);
 }
 
-
-
 // --------------------------------------------------------------------
 // Purpose:
 // Return the value with a dead band where it is zero
@@ -137,7 +135,7 @@ void centerOnMagnet(PropertyFile* propFile, int32_t mHalfMagnetsize)
 // --------------------------------------------------------------------
 int main(int argc, char* argv[])
 {
-    PropertyFile propFile("../Data/Funko.properties");
+    PropertyFile::getInstance()->loadFile("../Data/Funko.properties");
     int32_t encoder = 0;
     bool value = false;
     int32_t magnetSize = 0;
@@ -156,18 +154,15 @@ int main(int argc, char* argv[])
     if(true == gVerbose)
     {
         std::cout << "\nProperties:\n";
-        std::cout << "FastSpeed:" << propFile.getDouble("FastSpeed") << "\n";
-        std::cout << "NormalSpeed:" << propFile.getDouble("NormalSpeed") << "\n";
-        std::cout << "FrameWaitTimeMs:" << propFile.getInt("FrameWaitTimeMs") << "\n";
-        std::cout << "DegreesPerPicture:" << propFile.getDouble("DegreesPerPicture") << "\n";
+        PropertyFile::getInstance()->printTree();
     }
 
-    degreesPerPicture = propFile.getDouble("DegreesPerPicture");
+    degreesPerPicture = PropertyFile::getInstance()->getDegreesPerPicture();
     numberOfPictures = (uint32_t)360/degreesPerPicture;
 
     if(true == gCalibrate)
     {
-        encoderFile.calibrateEncoders(&propFile,&gMagnet,&gMotor);
+        encoderFile.calibrateEncoders(&gMagnet,&gMotor);
         return 0;
     }
 
@@ -178,7 +173,7 @@ int main(int argc, char* argv[])
         encoderFile.print();
     }
 
-    centerOnMagnet(&propFile, encoderFile.getHalfMagnetSize());
+    centerOnMagnet(encoderFile.getHalfMagnetSize());
 
     for(int i=0;i<numberOfPictures;i++)
     {
@@ -186,7 +181,7 @@ int main(int argc, char* argv[])
         std::cout << i*degreesPerPicture << " ";
         std::cout << gMotor.getRightEncoder() << " ";
         std::cout << (uint32_t)((encoderFile.getTicksPerDegree()*degreesPerPicture)+.5) << "\n";
-        turnDegrees(&propFile, (uint32_t)((encoderFile.getTicksPerDegree()*degreesPerPicture)+.5));
+        turnDegrees((uint32_t)((encoderFile.getTicksPerDegree()*degreesPerPicture)+.5));
         std::this_thread::sleep_for(std::chrono::milliseconds(300));
     }
 
