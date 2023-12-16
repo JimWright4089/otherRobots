@@ -16,7 +16,7 @@
 //----------------------------------------------------------------------------
 //  Includes
 //----------------------------------------------------------------------------
-#include "Jims_RobotClaw.h"
+#include "JimsRobotclaw.h"
 
 //#define ROBOTCLAW_DEBUG 1
 
@@ -27,7 +27,7 @@
 // Notes:
 // None.
 // --------------------------------------------------------------------
-Jims_RobotClaw::Jims_RobotClaw(string portName, uint32_t baud) :
+JimsRobotClaw::JimsRobotClaw(std::string portName, uint32_t baud) :
   mSerialPort(portName,baud)
 {
   mWheelCirc = mWheelDiameter * 3.14159;
@@ -40,7 +40,7 @@ Jims_RobotClaw::Jims_RobotClaw(string portName, uint32_t baud) :
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool Jims_RobotClaw::setLeftMotor(double speed)
+bool JimsRobotClaw::setLeftMotor(double speed)
 {
   return(setSpeed(speed,CMD_MOTOR2_FORWARD,CMD_MOTOR2_BACKWARDS));
 }
@@ -52,9 +52,10 @@ bool Jims_RobotClaw::setLeftMotor(double speed)
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool Jims_RobotClaw::setRightMotor(double speed)
+bool JimsRobotClaw::setRightMotor(double speed)
 {
-  return(setSpeed(speed,CMD_MOTOR1_FORWARD,CMD_MOTOR1_BACKWARDS));
+//  return(setSpeed(speed,CMD_MOTOR1_FORWARD,CMD_MOTOR1_BACKWARDS));
+  return(setSpeed(speed,CMD_MOTOR1_BACKWARDS,CMD_MOTOR1_FORWARD));
 }
 
 // --------------------------------------------------------------------
@@ -64,7 +65,7 @@ bool Jims_RobotClaw::setRightMotor(double speed)
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool Jims_RobotClaw::stopLeftMotor()
+bool JimsRobotClaw::stopLeftMotor()
 {
   return(setLeftMotor(0));
 }
@@ -76,7 +77,7 @@ bool Jims_RobotClaw::stopLeftMotor()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool Jims_RobotClaw::stopRightMotor()
+bool JimsRobotClaw::stopRightMotor()
 {
   return(setRightMotor(0));
 }
@@ -88,7 +89,7 @@ bool Jims_RobotClaw::stopRightMotor()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool Jims_RobotClaw::setLeftSpeed(int32_t speed)
+bool JimsRobotClaw::setLeftSpeed(int32_t speed)
 {
   return setEncoder(CMD_MOTOR2_SPEED, speed);
 }
@@ -100,7 +101,7 @@ bool Jims_RobotClaw::setLeftSpeed(int32_t speed)
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool Jims_RobotClaw::setRightSpeed(int32_t speed)
+bool JimsRobotClaw::setRightSpeed(int32_t speed)
 {
   return setEncoder(CMD_MOTOR1_SPEED, speed);
 }
@@ -112,7 +113,7 @@ bool Jims_RobotClaw::setRightSpeed(int32_t speed)
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool Jims_RobotClaw::setSpeed(double speed, uint8_t forward, uint8_t backwards)
+bool JimsRobotClaw::setSpeed(double speed, uint8_t forward, uint8_t backwards)
 {
 	uint8_t msg[] = { mAddress, forward, 45, 'x', 'x' };
   uint8_t readBuffer[1];
@@ -130,7 +131,7 @@ bool Jims_RobotClaw::setSpeed(double speed, uint8_t forward, uint8_t backwards)
   msg[4] = (crc)&0xff;
 
   mSerialPort.flush();
-  bool results = mSerialPort.write_then_read(msg, sizeof(msg),readBuffer, sizeof(readBuffer));
+  bool results = mSerialPort.writeThenRead(msg, sizeof(msg),readBuffer, sizeof(readBuffer));
 
   if(false == results)
   {
@@ -151,7 +152,7 @@ bool Jims_RobotClaw::setSpeed(double speed, uint8_t forward, uint8_t backwards)
 // Notes:
 // None.
 // --------------------------------------------------------------------
-int32_t Jims_RobotClaw::getLeftEncoder()
+int32_t JimsRobotClaw::getLeftEncoder()
 {
   return getEncoder(CMD_READ_MOTOR2_ENCODER);
 }
@@ -163,9 +164,9 @@ int32_t Jims_RobotClaw::getLeftEncoder()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-int32_t Jims_RobotClaw::getRightEncoder()
+int32_t JimsRobotClaw::getRightEncoder()
 {
-  return getEncoder(CMD_READ_MOTOR1_ENCODER);
+  return -1*getEncoder(CMD_READ_MOTOR1_ENCODER);
 }
 
 // --------------------------------------------------------------------
@@ -175,7 +176,7 @@ int32_t Jims_RobotClaw::getRightEncoder()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-double Jims_RobotClaw::getLeftSpeed()
+double JimsRobotClaw::getLeftSpeed()
 {
   return ((double)getEncoder(CMD_READ_MOTOR2_SPEED)/mTicksPerRev)*mWheelCirc;
 }
@@ -187,7 +188,7 @@ double Jims_RobotClaw::getLeftSpeed()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-double Jims_RobotClaw::getRightSpeed()
+double JimsRobotClaw::getRightSpeed()
 {
   return ((double)getEncoder(CMD_READ_MOTOR1_SPEED)/mTicksPerRev)*mWheelCirc;
 }
@@ -199,7 +200,7 @@ double Jims_RobotClaw::getRightSpeed()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-double Jims_RobotClaw::getLeftCurrent()
+double JimsRobotClaw::getLeftCurrent()
 {
   uint32_t value = (uint32_t)getEncoder(CMD_READ_MOTORS_CURRENT);
   uint16_t currentInt = (value&0xFFFF);
@@ -214,7 +215,7 @@ double Jims_RobotClaw::getLeftCurrent()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-double Jims_RobotClaw::getRightCurrent()
+double JimsRobotClaw::getRightCurrent()
 {
   uint32_t value = (uint32_t)getEncoder(CMD_READ_MOTORS_CURRENT);
   uint16_t currentInt = ((value>>16)&0xFFFF);
@@ -229,7 +230,7 @@ double Jims_RobotClaw::getRightCurrent()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-int32_t Jims_RobotClaw::getEncoder(uint8_t encoder)
+int32_t JimsRobotClaw::getEncoder(uint8_t encoder)
 {
   unsigned char msg[] = { mAddress, encoder, 'x', 'x' };
   unsigned int crc = crc16(msg, 2);
@@ -238,7 +239,7 @@ int32_t Jims_RobotClaw::getEncoder(uint8_t encoder)
   uint8_t readBuffer [7];
 
   mSerialPort.flush();
-  bool results = mSerialPort.write_then_read(msg, sizeof(msg),readBuffer, sizeof(readBuffer));
+  bool results = mSerialPort.writeThenRead(msg, sizeof(msg),readBuffer, sizeof(readBuffer));
 
   if(false == results)
   {
@@ -277,7 +278,7 @@ int32_t Jims_RobotClaw::getEncoder(uint8_t encoder)
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool Jims_RobotClaw::resetEncoders()
+bool JimsRobotClaw::resetEncoders()
 {
 	uint8_t msg[] = { mAddress, CMD_RESET_ENCODERS, 'x', 'x' };
   uint8_t readBuffer[1];
@@ -287,7 +288,7 @@ bool Jims_RobotClaw::resetEncoders()
   msg[3] = (crc)&0xff;
 
   mSerialPort.flush();
-  bool results = mSerialPort.write_then_read(msg, sizeof(msg),readBuffer, sizeof(readBuffer));
+  bool results = mSerialPort.writeThenRead(msg, sizeof(msg),readBuffer, sizeof(readBuffer));
 
   if(false == results)
   {
@@ -309,7 +310,7 @@ bool Jims_RobotClaw::resetEncoders()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool Jims_RobotClaw::setLeftEncoder(int32_t value)
+bool JimsRobotClaw::setLeftEncoder(int32_t value)
 {
   return(setEncoder(CMD_SET_MOTOR2_ENCODER,value));
 }
@@ -321,7 +322,7 @@ bool Jims_RobotClaw::setLeftEncoder(int32_t value)
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool Jims_RobotClaw::setRightEncoder(int32_t value)
+bool JimsRobotClaw::setRightEncoder(int32_t value)
 {
   return(setEncoder(CMD_SET_MOTOR1_ENCODER,value));
 }
@@ -333,7 +334,7 @@ bool Jims_RobotClaw::setRightEncoder(int32_t value)
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool Jims_RobotClaw::setEncoder(uint8_t encoder, int32_t value)
+bool JimsRobotClaw::setEncoder(uint8_t encoder, int32_t value)
 {
 	uint8_t msg[] = { mAddress, encoder, '1', '2', '3', '4', 'x', 'x' };
   uint8_t readBuffer[1];
@@ -351,7 +352,7 @@ bool Jims_RobotClaw::setEncoder(uint8_t encoder, int32_t value)
   msg[7] = (crc)&0xff;
 
   mSerialPort.flush();
-  bool results = mSerialPort.write_then_read(msg, sizeof(msg),readBuffer, sizeof(readBuffer));
+  bool results = mSerialPort.writeThenRead(msg, sizeof(msg),readBuffer, sizeof(readBuffer));
 
   if(false == results)
   {
@@ -372,7 +373,7 @@ bool Jims_RobotClaw::setEncoder(uint8_t encoder, int32_t value)
 // Notes:
 // None.
 // --------------------------------------------------------------------
-void Jims_RobotClaw::setAddress(uint8_t address)
+void JimsRobotClaw::setAddress(uint8_t address)
 {
   mAddress = address;
 }
@@ -384,7 +385,7 @@ void Jims_RobotClaw::setAddress(uint8_t address)
 // Notes:
 // None.
 // --------------------------------------------------------------------
-uint16_t Jims_RobotClaw::crc16(uint8_t *packet, uint16_t nBytes)
+uint16_t JimsRobotClaw::crc16(uint8_t *packet, uint16_t nBytes)
 {
   uint16_t crc = 0;
   for (uint16_t byte = 0; byte < nBytes; byte++)

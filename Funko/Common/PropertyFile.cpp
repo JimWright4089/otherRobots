@@ -17,8 +17,8 @@
 #include <iostream>
 #include <fstream>
 #include <stdint.h>
-#include "propertyFile.h"
-#include "common.h"
+#include "Common.h"
+#include "PropertyFile.h"
 
 // --------------------------------------------------------------------
 // Purpose:
@@ -98,6 +98,27 @@ int PropertyFile::getInt(std::string entry)
     try
     {
         returnValue = mProperyTree.get<int>(entry);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << " for " << entry << '\n';
+    }
+    return returnValue;
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+double PropertyFile::getDouble(std::string entry)
+{
+    double returnValue = 0.0;
+    try
+    {
+        returnValue = mProperyTree.get<double>(entry);
     }
     catch(const std::exception& e)
     {

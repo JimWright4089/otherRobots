@@ -16,7 +16,14 @@
 //----------------------------------------------------------------------------
 //  Includes
 //----------------------------------------------------------------------------
-#include "Jims_Serial.h"
+#include "JimsSerial.h"
+#include <fcntl.h> // Contains file controls like O_RDWR
+#include <stdio.h>
+#include <termios.h>
+#include <unistd.h>
+#include <iostream>
+#include <chrono>
+#include <thread>
 
 //#define SERIAL_DEBUG 1
 
@@ -27,7 +34,7 @@
 // Notes:
 // None.
 // --------------------------------------------------------------------
-Jims_Serial::Jims_Serial(string portName) :
+JimsSerial::JimsSerial(std::string portName) :
  mPortName(portName)
 {
   openPort();
@@ -40,7 +47,7 @@ Jims_Serial::Jims_Serial(string portName) :
 // Notes:
 // None.
 // --------------------------------------------------------------------
-Jims_Serial::Jims_Serial(string portName, uint32_t baud) :
+JimsSerial::JimsSerial(std::string portName, uint32_t baud) :
   mPortName(portName),
   mBaud(baud)
 {
@@ -54,7 +61,7 @@ Jims_Serial::Jims_Serial(string portName, uint32_t baud) :
 // Notes:
 // None.
 // --------------------------------------------------------------------
-void Jims_Serial::openPort()
+void JimsSerial::openPort()
 {
   mPort = open(mPortName.c_str(), O_RDWR );
   if (mPort == -1)
@@ -67,7 +74,7 @@ void Jims_Serial::openPort()
   int result = tcflush(mPort, TCIOFLUSH);
   if (result)
   {
-    perror("tcflush failed");  // just a warning, not a fatal error
+    std::cout << "tcflush failed\n";  // just a warning, not a fatal error
   }
  
   // Get the current configuration of the serial port.
@@ -75,7 +82,7 @@ void Jims_Serial::openPort()
   result = tcgetattr(mPort, &options);
   if (result)
   {
-    perror("tcgetattr failed");
+    std::cout << "tcgetattr failed\n";
     close(mPort);
     return;
   }
@@ -95,7 +102,7 @@ void Jims_Serial::openPort()
   result = tcsetattr(mPort, TCSANOW, &options);
   if (result)
   {
-    perror("tcsetattr failed");
+    std::cout << "tcsetattr failed\n";
     close(mPort);
     return;
   }
@@ -108,7 +115,7 @@ void Jims_Serial::openPort()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-void Jims_Serial::end(void)
+void JimsSerial::end(void)
 {
   close(mPort);
 }
@@ -120,7 +127,7 @@ void Jims_Serial::end(void)
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool Jims_Serial::flush()
+bool JimsSerial::flush()
 {
   return(tcflush(mPort, TCIOFLUSH));
 }
@@ -132,7 +139,7 @@ bool Jims_Serial::flush()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool Jims_Serial::readBuffer(uint8_t *buffer, uint16_t len)
+bool JimsSerial::readBuffer(uint8_t *buffer, uint16_t len)
 {
   size_t received = 0;
   while (received < len)
@@ -140,7 +147,7 @@ bool Jims_Serial::readBuffer(uint8_t *buffer, uint16_t len)
     ssize_t r = read(mPort, buffer + received, len - received);
     if (r < 0)
     {
-      perror("failed to read from port");
+      std::cout << "failed to read from port\n";
       return -1;
     }
     if (r == 0)
@@ -170,7 +177,7 @@ bool Jims_Serial::readBuffer(uint8_t *buffer, uint16_t len)
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool Jims_Serial::writeBuffer(const uint8_t *buffer, uint16_t len)
+bool JimsSerial::writeBuffer(const uint8_t *buffer, uint16_t len)
 {
 #ifdef SERIAL_DEBUG
   printf("Write %d:",len);
@@ -194,7 +201,7 @@ bool Jims_Serial::writeBuffer(const uint8_t *buffer, uint16_t len)
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool Jims_Serial::write_then_read(const uint8_t *write_buffer, uint16_t write_len,
+bool JimsSerial::writeThenRead(const uint8_t *write_buffer, uint16_t write_len,
                       uint8_t *read_buffer, uint16_t read_len)
 {
   bool results = writeBuffer(write_buffer, write_len);

@@ -18,7 +18,7 @@
 //----------------------------------------------------------------------------
 //  Includes
 //----------------------------------------------------------------------------
-#include "Jims_Serial.h"
+#include "JimsSerial.h"
 
 //----------------------------------------------------------------------------
 //  Class Declarations
@@ -30,9 +30,9 @@
 //      The storage location for the SQL Connection
 //
 //----------------------------------------------------------------------------
-class Jims_RobotClaw {
+class JimsRobotClaw {
 public:
-  Jims_RobotClaw(string portName, uint32_t baud);
+  JimsRobotClaw(std::string portName, uint32_t baud);
 
   bool setLeftMotor(double speed);
   bool setRightMotor(double speed);
@@ -95,7 +95,7 @@ private:
   int32_t getEncoder(uint8_t encoder);
   bool setEncoder(uint8_t encoder, int32_t value);
 
-  Jims_Serial mSerialPort;
+  JimsSerial mSerialPort;
   uint8_t mAddress = 128;
 
   double mWheelDiameter = 120.0;

@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------
 //
-//  $Workfile: propertyFile.h$
+//  $Workfile: Options.h$
 //
 //  $Revision: X$
 //
@@ -12,33 +12,23 @@
 //     This is the code for reading property files
 //
 //----------------------------------------------------------------------------
-#ifndef Jims_GPIO_h
-#define Jims_GPIO_h
 
 //----------------------------------------------------------------------------
 //  Includes
 //----------------------------------------------------------------------------
-#include <stdint.h>
+#include "Common.h"
 
 //----------------------------------------------------------------------------
-//  Class Declarations
+//  Functions
 //----------------------------------------------------------------------------
-//
-// Class Name: Connection
-// 
-// Purpose:
-//      The storage location for the SQL Connection
-//
-//----------------------------------------------------------------------------
-class JimsInput {
-public:
-  JimsInput();
-  JimsInput(int16_t pin);
+std::string indent(uint16_t size)
+{
+    std::string returnValue = "";
 
-  bool read();
-  bool valid();
+    for(int i=0;i<size;i++)
+    {
+        returnValue += " ";
+    }
+    return returnValue;
+}
 
-private:
-  int16_t mPin = 0;
-};
-#endif
