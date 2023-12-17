@@ -1,0 +1,664 @@
+{
+   "boba" : {
+      "bhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "bliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "dine" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "fhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "ktch" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "lliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "rliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "tv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      }
+   },
+   "boo" : {
+      "bhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "bliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "dine" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "fhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "ktch" : {
+         "camera0" : 72,
+         "camera1" : 72,
+         "camera2" : 72,
+         "camera3" : 72,
+         "camera4" : 72,
+         "camera5" : 72,
+         "camera6" : 0
+      },
+      "lliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "rliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "tv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      }
+   },
+   "ches" : {
+      "bhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "bliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "dine" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "fhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "ktch" : {
+         "camera0" : 144,
+         "camera1" : 144,
+         "camera2" : 144,
+         "camera3" : 144,
+         "camera4" : 144,
+         "camera5" : 144,
+         "camera6" : 0
+      },
+      "lliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "rliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "tv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      }
+   },
+   "ezra" : {
+      "bhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "bliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "dine" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "fhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "ktch" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "lliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "rliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "tv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      }
+   },
+   "hup" : {
+      "bhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "bliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "dine" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "fhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "ktch" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "lliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "rliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "tv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      }
+   },
+   "leaf" : {
+      "bhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "bliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "dine" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "fhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "ktch" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "lliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "rliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "tv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      }
+   },
+   "luke" : {
+      "bhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "bliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "dine" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "fhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "ktch" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "lliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "rliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "tv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      }
+   },
+   "phin" : {
+      "bhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "bliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "dine" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "fhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "ktch" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "lliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "rliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "tv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      }
+   },
+   "sull" : {
+      "bhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "bliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "dine" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "fhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "ktch" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "lliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "rliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "tv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      }
+   },
+   "twin" : {
+      "bhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "bliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "dine" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "fhal" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "ktch" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "lliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "rliv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      },
+      "tv" : {
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
+         "camera6" : 0
+      }
+   }
+}

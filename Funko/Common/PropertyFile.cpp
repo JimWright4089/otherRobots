@@ -180,32 +180,182 @@ void PropertyFile::printTree()
     printTree(mProperyTree,0);
 }
 
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
 double PropertyFile::getSlowSpeed()
 {
     return getDouble("SlowSpeed");
 }
 
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
 uint16_t PropertyFile::getFrameWaitTimeMs()
 {
     return getInt("FrameWaitTimeMs");
 }
 
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
 int16_t PropertyFile::getDegreeOffSet()
 {
     return getInt("DegreeOffSet");
 }
 
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
 double PropertyFile::getFastSpeed()
 {
     return getDouble("FastSpeed");
 }
 
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
 double PropertyFile::getNormalSpeed()
 {
     return getDouble("NormalSpeed");
 }
 
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
 double PropertyFile::getDegreesPerPicture()
 {
     return getDouble("DegreesPerPicture");
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+std::string PropertyFile::getDataRoot()
+{
+    return getString("DataRoot");
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+std::string PropertyFile::getCamerasProp()
+{
+    return getString("CamerasProp");
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+std::string PropertyFile::getEncoderProp()
+{
+    return getString("EncoderProp");
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+std::string PropertyFile::getPicturesDir()
+{
+    return getString("PicturesDir");
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+std::string PropertyFile::getPictureFileCount()
+{
+    return getString("PictureFileCount");
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+std::string PropertyFile::getFullCamerasProp()
+{
+    return getDataRoot()+getCamerasProp();
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+std::string PropertyFile::getFullEncoderProp()
+{
+    return getDataRoot()+getEncoderProp();
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+std::string PropertyFile::getFullPicturesDir()
+{
+    return getDataRoot()+getPicturesDir();
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+std::string PropertyFile::getFullPictureFileCount()
+{
+    return getDataRoot()+getPictureFileCount();
 }

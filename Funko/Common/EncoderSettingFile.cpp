@@ -138,6 +138,11 @@ void EncoderSettingFile::calibrateEncoders(JimsInput* magnet, JimsRobotClaw* mot
     double normalSpeed = 0.0;
     uint16_t frameWaitTimeMs = 20;
 
+    if(true == gVerbose)
+    {
+        std::cout << "Filename:" << mFileName << "\n";
+    }
+
     fastSpeed = PropertyFile::getInstance()->getFastSpeed();
     normalSpeed = PropertyFile::getInstance()->getNormalSpeed();
     frameWaitTimeMs = PropertyFile::getInstance()->getFrameWaitTimeMs();
@@ -157,10 +162,6 @@ void EncoderSettingFile::calibrateEncoders(JimsInput* magnet, JimsRobotClaw* mot
         std::this_thread::sleep_for(std::chrono::milliseconds(frameWaitTimeMs));
         encoder = motor->getRightEncoder();
         value = magnet->read();
-        if(true == gVerbose)
-        {
-            std::cout << value << " "<< encoder << "\n";
-        }
     }
     std::this_thread::sleep_for(std::chrono::milliseconds(frameWaitTimeMs*25));
 
@@ -174,10 +175,6 @@ void EncoderSettingFile::calibrateEncoders(JimsInput* magnet, JimsRobotClaw* mot
         std::this_thread::sleep_for(std::chrono::milliseconds(frameWaitTimeMs));
         encoder = motor->getRightEncoder();
         value = magnet->read();
-        if(true == gVerbose)
-        {
-            std::cout << value << " "<< encoder << "\n";
-        }
     }
     motor->setRightMotor(0);
     motor->setRightEncoder(0);
@@ -191,10 +188,6 @@ void EncoderSettingFile::calibrateEncoders(JimsInput* magnet, JimsRobotClaw* mot
         std::this_thread::sleep_for(std::chrono::milliseconds(frameWaitTimeMs));
         encoder = motor->getRightEncoder();
         value = magnet->read();
-        if(true == gVerbose)
-        {
-            std::cout << value << " "<< encoder << "\n";
-        }
     }
     motor->setRightMotor(0);
     mMagnetSize = encoder;
@@ -211,13 +204,9 @@ void EncoderSettingFile::calibrateEncoders(JimsInput* magnet, JimsRobotClaw* mot
         std::this_thread::sleep_for(std::chrono::milliseconds(frameWaitTimeMs));
         encoder = motor->getRightEncoder();
         value = magnet->read();
-        if(true == gVerbose)
-        {
-            std::cout << value << " "<< encoder << "\n";
-        }
     }
     mDiskSize = encoder;
-    mTicksPerDegree = ((double)mDiskSize)/360.0;
+    mTicksPerDegree = ((double)mDiskSize+(double)mMagnetSize)/360.0;
 
     ///////////////////////////////////////////////////////////////////////
     // Center on the magnet
@@ -230,10 +219,6 @@ void EncoderSettingFile::calibrateEncoders(JimsInput* magnet, JimsRobotClaw* mot
         std::this_thread::sleep_for(std::chrono::milliseconds(frameWaitTimeMs));
         encoder = motor->getRightEncoder();
         value = magnet->read();
-        if(true == gVerbose)
-        {
-            std::cout << value << " "<< encoder << "\n";
-        }
     }
     motor->setRightMotor(0);
     motor->setRightEncoder(0);

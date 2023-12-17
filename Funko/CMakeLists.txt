@@ -17,7 +17,8 @@ find_path(WIRINGPI_INCLUDE_DIRS NAMES wiringPi.h)
 FIND_PACKAGE( Boost 1.74.0 COMPONENTS program_options REQUIRED )
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
 
-add_executable(Funko ./Funko/Funko.cpp ./Common/Options.cpp ./Common/PropertyFile.cpp ./Common/Common.cpp ./Common/EncoderSettingFile.cpp
+add_executable(Funko ./Funko/Funko.cpp ./Common/Options.cpp ./Common/PropertyFile.cpp ./Common/Common.cpp 
+             ./Common/PictureCountFile.cpp ./Common/EncoderSettingFile.cpp
              ./Drivers/JimsGPIO.cpp ./Drivers/JimsSerial.cpp ./Drivers/JimsRobotclaw.cpp)
 target_link_libraries(Funko jsoncpp ${Boost_LIBRARIES} wiringPi)
 

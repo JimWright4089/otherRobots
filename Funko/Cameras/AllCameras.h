@@ -12,14 +12,14 @@
 //     This is the code for reading property files
 //
 //----------------------------------------------------------------------------
-#ifndef PROPERTY_FILES_H
-#define PROPERTY_FILES_H
+#ifndef ALL_CAMERAS_H
+#define ALL_CAMERAS_H
 
 //----------------------------------------------------------------------------
 //  Includes
 //----------------------------------------------------------------------------
 #include <string>
-#include <boost/property_tree/ptree.hpp>
+#include <opencv2/opencv.hpp>
 
 //----------------------------------------------------------------------------
 //  Class Declarations
@@ -31,53 +31,25 @@
 //      The storage location for the SQL Connection
 //
 //----------------------------------------------------------------------------
-class PropertyFile
+class AllCameras
 {
   public:
 
     //----------------------------------------------------------------------------
     //  Class Methods
     //----------------------------------------------------------------------------
-    static PropertyFile* getInstance();
-
-    void loadFile(std::string fileName);
-
-    void printTree();
-
-    double getSlowSpeed();
-    uint16_t getFrameWaitTimeMs();
-    int16_t getDegreeOffSet();
-    double getFastSpeed();
-    double getNormalSpeed();
-    double getDegreesPerPicture();
-    std::string getDataRoot();
-    std::string getCamerasProp();
-    std::string getEncoderProp();
-    std::string getPicturesDir();
-    std::string getPictureFileCount();
-    std::string getFullCamerasProp();
-    std::string getFullEncoderProp();
-    std::string getFullPicturesDir();
-    std::string getFullPictureFileCount();
+    AllCameras();
+    virtual ~AllCameras() {}
 
 
   private:
-    PropertyFile();
-    virtual ~PropertyFile() {}
-    std::string getString(std::string entry);
-    int getInt(std::string entry);
-    double getDouble(std::string entry);
 
     //----------------------------------------------------------------------------
     //  Class Atributes
     //----------------------------------------------------------------------------
-    std::string mFileName = "";
-    boost::property_tree::ptree mProperyTree;
-    static PropertyFile* mInstance;
 
     //----------------------------------------------------------------------------
     //  Class Methods
     //----------------------------------------------------------------------------
-    void printTree(boost::property_tree::ptree &propertyTree, int level);
 };
 #endif

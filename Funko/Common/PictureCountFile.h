@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------
 //
-//  $Workfile: propertyFile.h$
+//  $Workfile: ipAddressFile.h$
 //
 //  $Revision: X$
 //
@@ -9,17 +9,19 @@
 //  $
 //
 //  Notes:
-//     This is the code for reading property files
+//     This is the code for reading ip address files
 //
 //----------------------------------------------------------------------------
-#ifndef PROPERTY_FILES_H
-#define PROPERTY_FILES_H
+#ifndef PICTURE_COUNT_FILE_H
+#define PICTURE_COUNT_FILE_H
 
 //----------------------------------------------------------------------------
 //  Includes
 //----------------------------------------------------------------------------
+#include <stdint.h>
 #include <string>
-#include <boost/property_tree/ptree.hpp>
+#include <vector>
+#include <json/json.h>
 
 //----------------------------------------------------------------------------
 //  Class Declarations
@@ -31,53 +33,30 @@
 //      The storage location for the SQL Connection
 //
 //----------------------------------------------------------------------------
-class PropertyFile
+class PictureCountFile
 {
   public:
 
     //----------------------------------------------------------------------------
     //  Class Methods
     //----------------------------------------------------------------------------
-    static PropertyFile* getInstance();
-
-    void loadFile(std::string fileName);
-
-    void printTree();
-
-    double getSlowSpeed();
-    uint16_t getFrameWaitTimeMs();
-    int16_t getDegreeOffSet();
-    double getFastSpeed();
-    double getNormalSpeed();
-    double getDegreesPerPicture();
-    std::string getDataRoot();
-    std::string getCamerasProp();
-    std::string getEncoderProp();
-    std::string getPicturesDir();
-    std::string getPictureFileCount();
-    std::string getFullCamerasProp();
-    std::string getFullEncoderProp();
-    std::string getFullPicturesDir();
-    std::string getFullPictureFileCount();
-
+    PictureCountFile(std::string fileName);
+    virtual ~PictureCountFile() {}
+    void loadFile();
+    void saveFile();
+    void print();
+    std::string getFileName(std::string pop, std::string location, std::string camera);
+    void addToFileNameCount(std::string pop, std::string location, std::string camera);
 
   private:
-    PropertyFile();
-    virtual ~PropertyFile() {}
-    std::string getString(std::string entry);
-    int getInt(std::string entry);
-    double getDouble(std::string entry);
-
     //----------------------------------------------------------------------------
     //  Class Atributes
     //----------------------------------------------------------------------------
-    std::string mFileName = "";
-    boost::property_tree::ptree mProperyTree;
-    static PropertyFile* mInstance;
+    Json::Value mCounts;
+    std::string mFileName;
 
     //----------------------------------------------------------------------------
     //  Class Methods
     //----------------------------------------------------------------------------
-    void printTree(boost::property_tree::ptree &propertyTree, int level);
 };
 #endif

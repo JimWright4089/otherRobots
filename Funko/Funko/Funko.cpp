@@ -21,6 +21,7 @@
 #include "JimsGPIO.h"
 #include "JimsRobotclaw.h"
 #include "EncoderSettingFile.h"
+#include "PictureCountFile.h"
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -45,10 +46,6 @@ void turnDegrees(int32_t ticks)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(frameWaitTimeMs));
         encoder = gMotor.getRightEncoder();
-        if(true == gVerbose)
-        {
-            std::cout << encoder << "\n";
-        }
     }
     gMotor.setRightMotor(0);
 
@@ -80,10 +77,6 @@ void centerOnMagnet(int32_t mHalfMagnetsize)
     {
         encoder = gMotor.getRightEncoder();
         value = gMagnet.read();
-        if(true == gVerbose)
-        {
-            std::cout << value << " "<< encoder << "\n";
-        }
         std::this_thread::sleep_for(std::chrono::milliseconds(frameWaitTimeMs));
     }
     std::this_thread::sleep_for(std::chrono::milliseconds(frameWaitTimeMs*25));
@@ -97,10 +90,6 @@ void centerOnMagnet(int32_t mHalfMagnetsize)
     {
         encoder = gMotor.getRightEncoder();
         value = gMagnet.read();
-        if(true == gVerbose)
-        {
-            std::cout << value << " "<< encoder << "\n";
-        }
         std::this_thread::sleep_for(std::chrono::milliseconds(frameWaitTimeMs));
     }
     gMotor.setRightMotor(0);
@@ -116,10 +105,6 @@ void centerOnMagnet(int32_t mHalfMagnetsize)
     {
         encoder = gMotor.getRightEncoder();
         value = gMagnet.read();
-        if(true == gVerbose)
-        {
-            std::cout << value << " "<< encoder << "\n";
-        }
         std::this_thread::sleep_for(std::chrono::milliseconds(frameWaitTimeMs));
     }
     gMotor.setRightMotor(0);
@@ -144,7 +129,8 @@ int main(int argc, char* argv[])
     double ticksPerDegree = 0;
     double degreesPerPicture = 0.0;
     uint16_t numberOfPictures = 0;
-    EncoderSettingFile encoderFile("../Data/Encoder.json");
+    EncoderSettingFile encoderFile(PropertyFile::getInstance()->getFullEncoderProp());
+    PictureCountFile pictureCountFile(PropertyFile::getInstance()->getFullPictureFileCount());
 
     if(false == setOptionFlags(argc, argv))
     {
@@ -167,6 +153,7 @@ int main(int argc, char* argv[])
     }
 
     encoderFile.loadFile();
+    pictureCountFile.loadFile();
 
     if(true == gVerbose)
     {
@@ -177,14 +164,34 @@ int main(int argc, char* argv[])
 
     for(int i=0;i<numberOfPictures;i++)
     {
-        std::cout << "Picture at ";
-        std::cout << i*degreesPerPicture << " ";
-        std::cout << gMotor.getRightEncoder() << " ";
-        std::cout << (uint32_t)((encoderFile.getTicksPerDegree()*degreesPerPicture)+.5) << "\n";
+        if(true == gVerbose)
+        {
+            std::cout << "Picture at ";
+            std::cout << i*degreesPerPicture << "° ";
+            std::cout << gMotor.getRightEncoder() << " ";
+            std::cout << (uint32_t)((encoderFile.getTicksPerDegree()*degreesPerPicture)+.5) << "\n";
+        }
+        for(int cam=0;cam<6;cam++)
+        {
+            std::string camera = "camera"+std::to_string(cam);
+            std::string fileName = gPop+"-"+gLoc+"-"+camera+"-"+pictureCountFile.getFileName(gPop,gLoc,camera)+".jpg";
+            pictureCountFile.addToFileNameCount(gPop,gLoc,camera);
+            std::string directoryName = PropertyFile::getInstance()->getFullPicturesDir()+gPop+"/"+gLoc+"/"+camera+"/"+fileName;
+            if(true == gVerbose)
+            {
+                std::cout << "  " << directoryName << "\n";
+            }
+        }
         turnDegrees((uint32_t)((encoderFile.getTicksPerDegree()*degreesPerPicture)+.5));
         std::this_thread::sleep_for(std::chrono::milliseconds(300));
     }
-
+    if(true == gVerbose)
+    {
+        std::cout << "Final ticks ";
+        std::cout << gMotor.getRightEncoder() << " ";
+        std::cout << (uint32_t)((encoderFile.getTicksPerDegree()*degreesPerPicture)+.5) << "\n";
+    }
+    pictureCountFile.saveFile();
     return 0;
 }
 
