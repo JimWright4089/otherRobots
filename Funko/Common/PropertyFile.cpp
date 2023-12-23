@@ -345,7 +345,7 @@ std::string PropertyFile::getFullEncoderProp()
 // --------------------------------------------------------------------
 std::string PropertyFile::getFullPicturesDir()
 {
-    return getDataRoot()+getPicturesDir();
+    return getPicturesDir();
 }
 
 // --------------------------------------------------------------------

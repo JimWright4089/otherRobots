@@ -16,15 +16,18 @@
 //----------------------------------------------------------------------------
 //  Includes
 //----------------------------------------------------------------------------
+#include <opencv2/opencv.hpp>
+#include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/path.hpp>
+#include <iostream>
+#include <chrono>
+#include <thread>
 #include "Options.h"
 #include "PropertyFile.h"
 #include "JimsGPIO.h"
 #include "JimsRobotclaw.h"
 #include "EncoderSettingFile.h"
 #include "PictureCountFile.h"
-#include <iostream>
-#include <chrono>
-#include <thread>
 
 //----------------------------------------------------------------------------
 //  Global
@@ -118,8 +121,10 @@ void centerOnMagnet(int32_t mHalfMagnetsize)
 // Notes:
 // None.
 // --------------------------------------------------------------------
+int CAMS[] = {0,8,26,28,30};
 int main(int argc, char* argv[])
 {
+    auto beginTime = std::chrono::high_resolution_clock::now();
     PropertyFile::getInstance()->loadFile("../Data/Funko.properties");
     int32_t encoder = 0;
     bool value = false;
@@ -155,35 +160,109 @@ int main(int argc, char* argv[])
     encoderFile.loadFile();
     pictureCountFile.loadFile();
 
-    if(true == gVerbose)
-    {
-        encoderFile.print();
-    }
-
     centerOnMagnet(encoderFile.getHalfMagnetSize());
 
     for(int i=0;i<numberOfPictures;i++)
     {
         if(true == gVerbose)
         {
+            auto curTime = std::chrono::high_resolution_clock::now();
+            std::chrono::milliseconds duration =  std::chrono::duration_cast<std::chrono::milliseconds>(curTime - beginTime);
+            double theTime = duration.count();
+            theTime /= 1000;
+            theTime /= 60;
+            int minutes = (int)theTime;
+            theTime -= minutes;
+            int seconds = 60*theTime;
+            char timeString[30];
+            double percent = ((double)i/(double)numberOfPictures)*100.0;
+
+            snprintf(timeString,30,"%d:%02d %6.2f",minutes,seconds,percent);
+
             std::cout << "Picture at ";
             std::cout << i*degreesPerPicture << "° ";
             std::cout << gMotor.getRightEncoder() << " ";
-            std::cout << (uint32_t)((encoderFile.getTicksPerDegree()*degreesPerPicture)+.5) << "\n";
+            std::cout << (uint32_t)((encoderFile.getTicksPerDegree()*degreesPerPicture)+.5) << "  ";
+            std::cout << timeString << "%\n";
         }
         for(int cam=0;cam<6;cam++)
         {
-            std::string camera = "camera"+std::to_string(cam);
-            std::string fileName = gPop+"-"+gLoc+"-"+camera+"-"+pictureCountFile.getFileName(gPop,gLoc,camera)+".jpg";
-            pictureCountFile.addToFileNameCount(gPop,gLoc,camera);
-            std::string directoryName = PropertyFile::getInstance()->getFullPicturesDir()+gPop+"/"+gLoc+"/"+camera+"/"+fileName;
-            if(true == gVerbose)
+            if(6 == cam)
             {
-                std::cout << "  " << directoryName << "\n";
+                break;
+            }
+
+            bool good  = false;
+            for(int retry=0;retry<5;retry++)
+            {
+                int camNum = CAMS[cam];
+                cv::Mat frame;
+                cv::VideoCapture capture;
+                capture.open(camNum);
+
+                for(int j=0;j<20;j++)
+                {
+                    capture >> frame;
+                }
+                if (!frame.empty())
+                {
+                    std::string camera = "camera"+std::to_string(cam);
+                    std::string fileName = gPop+"-"+gLoc+"-"+camera+"-"+pictureCountFile.getFileName(gPop,gLoc,camera)+".jpg";
+                    
+                    std::string directoryName = PropertyFile::getInstance()->getFullPicturesDir();
+
+                    if(false == boost::filesystem::is_directory(directoryName))
+                    {
+                        boost::filesystem::create_directory(directoryName);
+                    }
+
+                    directoryName += gPop+"/";
+
+                    if(false == boost::filesystem::is_directory(directoryName))
+                    {
+                        boost::filesystem::create_directory(directoryName);
+                    }
+
+                    directoryName += gLoc+"/";
+
+                    if(false == boost::filesystem::is_directory(directoryName))
+                    {
+                        boost::filesystem::create_directory(directoryName);
+                    }
+
+                    directoryName += camera+"/";
+
+                    if(false == boost::filesystem::is_directory(directoryName))
+                    {
+                        boost::filesystem::create_directory(directoryName);
+                    }
+
+                    directoryName += fileName;
+
+                    if(false == cv::imwrite(directoryName, frame))
+                    {
+                        std::cout << "Can't write to " << directoryName << "\n";
+                    }
+                    else
+                    {
+                        pictureCountFile.addToFileNameCount(gPop,gLoc,camera);
+                    }
+                    if(true == gVerbose)
+                    {
+                        std::cout << "  " << directoryName << "\n";
+                    }
+                    good = true;
+                }
+                capture.release();
+                if(true == good)
+                {
+                    break;
+                }
+                std::cout << "Video" << i << " retry:" << retry <<"\n";
+                std::this_thread::sleep_for(std::chrono::milliseconds(300));
             }
         }
         turnDegrees((uint32_t)((encoderFile.getTicksPerDegree()*degreesPerPicture)+.5));
-        std::this_thread::sleep_for(std::chrono::milliseconds(300));
     }
     if(true == gVerbose)
     {

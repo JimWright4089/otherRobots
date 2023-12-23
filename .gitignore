@@ -33,4 +33,5 @@
 
 # ignore ALL files in these directories anywhere
 build/
+Pictures/
 

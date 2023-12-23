@@ -120,6 +120,11 @@ bool setOptionFlags(int argc, char* argv[])
         return false;
     }
 
+    if(true == gJustHelp)
+    {
+        return false;
+    }
+
     return true;
 }
 

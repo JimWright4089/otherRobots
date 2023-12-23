@@ -57,11 +57,12 @@
          "camera6" : 0
       },
       "tv" : {
-         "camera1" : 0,
-         "camera2" : 0,
-         "camera3" : 0,
-         "camera4" : 0,
-         "camera5" : 0,
+         "camera0" : 72,
+         "camera1" : 72,
+         "camera2" : 72,
+         "camera3" : 72,
+         "camera4" : 72,
+         "camera5" : 72,
          "camera6" : 0
       }
    },
@@ -99,12 +100,12 @@
          "camera6" : 0
       },
       "ktch" : {
-         "camera0" : 72,
-         "camera1" : 72,
-         "camera2" : 72,
-         "camera3" : 72,
-         "camera4" : 72,
-         "camera5" : 72,
+         "camera0" : 0,
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
          "camera6" : 0
       },
       "lliv" : {
@@ -166,12 +167,12 @@
          "camera6" : 0
       },
       "ktch" : {
-         "camera0" : 144,
-         "camera1" : 144,
-         "camera2" : 144,
-         "camera3" : 144,
-         "camera4" : 144,
-         "camera5" : 144,
+         "camera0" : 0,
+         "camera1" : 0,
+         "camera2" : 0,
+         "camera3" : 0,
+         "camera4" : 0,
+         "camera5" : 0,
          "camera6" : 0
       },
       "lliv" : {
@@ -191,11 +192,12 @@
          "camera6" : 0
       },
       "tv" : {
-         "camera1" : 0,
-         "camera2" : 0,
-         "camera3" : 0,
-         "camera4" : 0,
-         "camera5" : 0,
+         "camera0" : 72,
+         "camera1" : 72,
+         "camera2" : 72,
+         "camera3" : 72,
+         "camera4" : 72,
+         "camera5" : 72,
          "camera6" : 0
       }
    },
@@ -323,11 +325,12 @@
          "camera6" : 0
       },
       "tv" : {
-         "camera1" : 0,
-         "camera2" : 0,
-         "camera3" : 0,
-         "camera4" : 0,
-         "camera5" : 0,
+         "camera0" : 72,
+         "camera1" : 72,
+         "camera2" : 72,
+         "camera3" : 72,
+         "camera4" : 72,
+         "camera5" : 72,
          "camera6" : 0
       }
    },
@@ -389,11 +392,12 @@
          "camera6" : 0
       },
       "tv" : {
-         "camera1" : 0,
-         "camera2" : 0,
-         "camera3" : 0,
-         "camera4" : 0,
-         "camera5" : 0,
+         "camera0" : 72,
+         "camera1" : 72,
+         "camera2" : 72,
+         "camera3" : 72,
+         "camera4" : 72,
+         "camera5" : 72,
          "camera6" : 0
       }
    },
@@ -455,11 +459,12 @@
          "camera6" : 0
       },
       "tv" : {
-         "camera1" : 0,
-         "camera2" : 0,
-         "camera3" : 0,
-         "camera4" : 0,
-         "camera5" : 0,
+         "camera0" : 72,
+         "camera1" : 72,
+         "camera2" : 72,
+         "camera3" : 72,
+         "camera4" : 72,
+         "camera5" : 72,
          "camera6" : 0
       }
    },
@@ -587,11 +592,12 @@
          "camera6" : 0
       },
       "tv" : {
-         "camera1" : 0,
-         "camera2" : 0,
-         "camera3" : 0,
-         "camera4" : 0,
-         "camera5" : 0,
+         "camera0" : 72,
+         "camera1" : 72,
+         "camera2" : 72,
+         "camera3" : 72,
+         "camera4" : 72,
+         "camera5" : 72,
          "camera6" : 0
       }
    },
@@ -653,11 +659,12 @@
          "camera6" : 0
       },
       "tv" : {
-         "camera1" : 0,
-         "camera2" : 0,
-         "camera3" : 0,
-         "camera4" : 0,
-         "camera5" : 0,
+         "camera0" : 72,
+         "camera1" : 72,
+         "camera2" : 72,
+         "camera3" : 72,
+         "camera4" : 72,
+         "camera5" : 72,
          "camera6" : 0
       }
    }
