@@ -223,6 +223,30 @@ int16_t PropertyFile::getDegreeOffSet()
 // Notes:
 // None.
 // --------------------------------------------------------------------
+int16_t PropertyFile::getImageBoxWidth()
+{
+    return getInt("ImageBoxWidth");
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+int16_t PropertyFile::getImageBoxHeight()
+{
+    return getInt("ImageboxHeight");
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
 double PropertyFile::getFastSpeed()
 {
     return getDouble("FastSpeed");
@@ -307,6 +331,42 @@ std::string PropertyFile::getPicturesDir()
 // Notes:
 // None.
 // --------------------------------------------------------------------
+std::string PropertyFile::getDisplayDir()
+{
+    return getString("DisplayDir");
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+std::string PropertyFile::getCalibrationDir()
+{
+    return getString("CalibrationDir");
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+std::string PropertyFile::getDisplayProp()
+{
+    return getString("DisplayProp");
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
 std::string PropertyFile::getPictureFileCount()
 {
     return getString("PictureFileCount");
@@ -358,4 +418,40 @@ std::string PropertyFile::getFullPicturesDir()
 std::string PropertyFile::getFullPictureFileCount()
 {
     return getDataRoot()+getPictureFileCount();
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+std::string PropertyFile::getFullDisplayDir()
+{
+    return getPicturesDir()+getDisplayDir();
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+std::string PropertyFile::getFullCalibrationDir()
+{
+    return getPicturesDir()+getCalibrationDir();
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+std::string PropertyFile::getFullDisplayProp()
+{
+    return getDataRoot()+getDisplayProp();
 }

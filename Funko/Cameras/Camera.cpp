@@ -12,6 +12,7 @@
 //     This is the code for reading property files
 //
 //----------------------------------------------------------------------------
+#include "PropertyFile.h"
 #include "Camera.h"
 
 // --------------------------------------------------------------------
@@ -32,8 +33,11 @@ Camera::Camera()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-Camera::Camera(std::string name) :
-    mName(name)
+Camera::Camera(std::string model, std::string serialNumber, std::string device, uint16_t readFrames) :
+    mModel(model),
+    mSerialNumber(serialNumber),
+    mDevice(device),
+    mReadFrames(readFrames)
 {
 
 }
@@ -56,9 +60,29 @@ void Camera::start()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-cv::Mat* Camera::getFrame()
+cv::Mat Camera::getFrame()
 {
-    return new  cv::Mat(640, 480, cv::CV_8UC3, Scalar(10, 100, 150));
+    cv::Mat frame(640, 320, CV_8UC3, cv::Scalar(140, 100, 15));
+    cv::Mat frameReturn(640, 320, CV_8UC3, cv::Scalar(140, 100, 15));
+    cv::VideoCapture capture;
+    capture.open(mDevice);
+
+    for(int j=0;j<mReadFrames;j++)
+    {
+        capture >> frame;
+    }
+    if (!frame.empty())
+    {
+      cv::Rect rect(    mBoxTopX, 
+                        mBoxTopY, 
+                        PropertyFile::getInstance()->getImageBoxWidth(),
+                        PropertyFile::getInstance()->getImageBoxHeight());
+
+        frameReturn = frame(rect);
+    }
+    capture.release();
+
+    return frameReturn;
 }
 
 // --------------------------------------------------------------------
@@ -68,9 +92,27 @@ cv::Mat* Camera::getFrame()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-cv::Mat* Camera::getCalibrationFrame()
+cv::Mat Camera::getCalibrationFrame()
 {
-    return new  cv::Mat(640, 480, cv::CV_8UC3, Scalar(10, 100, 150));
+    cv::Mat frame(640, 320, CV_8UC3, cv::Scalar(140, 100, 15));
+    cv::VideoCapture capture;
+    capture.open(mDevice);
+
+    for(int j=0;j<mReadFrames;j++)
+    {
+        capture >> frame;
+    }
+    if (!frame.empty())
+    {
+      cv::Rect rect(    mBoxTopX, 
+                        mBoxTopY, 
+                        PropertyFile::getInstance()->getImageBoxWidth(),
+                        PropertyFile::getInstance()->getImageBoxHeight());
+      cv::rectangle(frame, rect, cv::Scalar(0, 0, 255));
+    }
+    capture.release();
+
+    return frame;
 }
 
 // --------------------------------------------------------------------
@@ -80,23 +122,8 @@ cv::Mat* Camera::getCalibrationFrame()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-void Camera::setRes(uint16_t h, uint16_t v)
-{
-    uint16_t mResH = h;
-    uint16_t mResV = v;
-}
-
-// --------------------------------------------------------------------
-// Purpose:
-// Return the value with a dead band where it is zero
-//
-// Notes:
-// None.
-// --------------------------------------------------------------------
-void Camera::setBox(uint16_t topX, uint16_t topY, uint16_t botX, uint16_t botY)
+void Camera::setBox(uint16_t topX, uint16_t topY)
 {
     mBoxTopX = topX;
     mBoxTopY = topY;
-    mBoxBottomX = botX;
-    mBoxbottomY = botY;
 }

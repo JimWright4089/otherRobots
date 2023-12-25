@@ -28,6 +28,8 @@
 #include "JimsRobotclaw.h"
 #include "EncoderSettingFile.h"
 #include "PictureCountFile.h"
+#include "DisplayDevices.h"
+#include "AllCameras.h"
 
 //----------------------------------------------------------------------------
 //  Global
@@ -136,6 +138,7 @@ int main(int argc, char* argv[])
     uint16_t numberOfPictures = 0;
     EncoderSettingFile encoderFile(PropertyFile::getInstance()->getFullEncoderProp());
     PictureCountFile pictureCountFile(PropertyFile::getInstance()->getFullPictureFileCount());
+    AllCameras allCameras;
 
     if(false == setOptionFlags(argc, argv))
     {
@@ -154,6 +157,18 @@ int main(int argc, char* argv[])
     if(true == gCalibrate)
     {
         encoderFile.calibrateEncoders(&gMagnet,&gMotor);
+        return 0;
+    }
+
+    if(true == gDisplayCameras)
+    {
+        displayDevices();
+        return 0;
+    }
+
+    if(true == gCalibrateCameras)
+    {
+        allCameras.calibrateCameras();
         return 0;
     }
 

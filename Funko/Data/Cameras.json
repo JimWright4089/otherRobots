@@ -1,62 +1,56 @@
 {
    "camera0" : 
    {
-    "type": "OAK-D",
-    "resolutionH": 4056,
-    "resolutionV":3040,
-    "TopX": 100,
-    "TopY": 100,
-    "BottomX": 400,
-    "bottomY": 400
+      "device" : "/dev/video14",
+      "model" : "Anker_PowerConf_C200",
+      "serialNumber" : "ACNV9P1D34176177",
+      "readFrames" : 60,
+      "topX": 0,
+      "topY": 0
    },
    "camera1" : 
    {
-    "type": "D435i",
-    "resolutionH": 1920,
-    "resolutionV": 1080,
-    "TopX": 100,
-    "TopY": 100,
-    "BottomX": 400,
-    "bottomY": 400
+      "device" : "/dev/video20",
+      "model" : "Intel_R__RealSense_TM__Depth_Camera_435i",
+      "serialNumber" : "C2D0A783",
+      "readFrames" : 20,
+      "topX": 0,
+      "topY": 0
    },
    "camera2" : 
    {
-    "type": "HD-3000",
-    "resolutionH": 1280,
-    "resolutionV": 720,
-    "TopX": 100,
-    "TopY": 100,
-    "BottomX": 400,
-    "bottomY": 400
+      "device" : "/dev/video12",
+      "model" : "081b",
+      "serialNumber" : "79B0E1B0",
+      "readFrames" : 10,
+      "topX": 0,
+      "topY": 0
    },
    "camera3" : 
    {
-    "type": "ZED",
-    "resolutionH": 1920,
-    "resolutionV": 1080,
-    "TopX": 100,
-    "TopY": 100,
-    "BottomX": 400,
-    "bottomY": 400
+      "device" : "/dev/video4",
+      "model" : "Microsoft\u00ae_LifeCam_HD-3000",
+      "serialNumber" : "C2D0A783",
+      "readFrames" : 10,
+      "topX": 0,
+      "topY": 0
    },
    "camera4" : 
    {
-    "type": "4K PRO",
-    "resolutionH": 1920,
-    "resolutionV": 1080,
-    "TopX": 100,
-    "TopY": 100,
-    "BottomX": 400,
-    "bottomY": 400
+      "device" : "/dev/video0",
+      "model" : "Logitech_BRIO",
+      "serialNumber" : "C2D0A783",
+      "readFrames" : 10,
+      "topX": 0,
+      "topY": 0
    },
    "camera5" : 
    {
-    "type": "D435i",
-    "resolutionH": 1920,
-    "resolutionV": 1080,
-    "TopX": 100,
-    "TopY": 100,
-    "BottomX": 400,
-    "bottomY": 400
+      "device" : "/dev/video10",
+      "model" : "Intel_R__RealSense_TM__Depth_Camera_435i",
+      "serialNumber" : "C2D0A783",
+      "readFrames" : 20,
+      "topX": 0,
+      "topY": 0
    }
 }

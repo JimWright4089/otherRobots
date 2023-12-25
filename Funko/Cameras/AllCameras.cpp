@@ -12,6 +12,12 @@
 //     This is the code for reading property files
 //
 //----------------------------------------------------------------------------
+#include <json/json.h>
+#include <iostream>
+#include <fstream>
+#include <boost/filesystem.hpp>
+#include "PropertyFile.h"
+#include "Options.h"
 #include "AllCameras.h"
 
 // --------------------------------------------------------------------
@@ -21,8 +27,26 @@
 // Notes:
 // None.
 // --------------------------------------------------------------------
-Camera::Camera()
+AllCameras::AllCameras()
 {
+    Json::Value cameraJson;
+    std::ifstream ipFile(PropertyFile::getInstance()->getFullCamerasProp());
+    Json::Reader reader;
+
+    reader.parse(ipFile, cameraJson);
+
+    for(int i=0;i<MAX_CAMERA;i++)
+    {
+        std::string cameraString = "camera"+ std::to_string(i);
+        Json::Value camera = cameraJson[cameraString];
+        Camera* newCamera = new Camera(
+            camera[MODEL].asString(),
+            camera[SERIAL_NUMBER].asString(),
+            camera[DEVICE].asString(),
+            camera[READ_FRAMES].asInt());
+        newCamera->setBox(camera[TOP_X].asInt(),camera[TOP_Y].asInt());
+        mCameras.push_back(newCamera);
+    }
 }
 
 // --------------------------------------------------------------------
@@ -32,10 +56,15 @@ Camera::Camera()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-Camera::Camera(std::string name) :
-    mName(name)
+cv::Mat AllCameras::getFrame(uint16_t cameraID)
 {
+    cv::Mat frame(640, 320, CV_8UC3, cv::Scalar(140, 100, 15));
 
+    if(cameraID < mCameras.size())
+    {
+        return mCameras[cameraID]->getFrame();
+    }
+    return frame;
 }
 
 // --------------------------------------------------------------------
@@ -45,8 +74,15 @@ Camera::Camera(std::string name) :
 // Notes:
 // None.
 // --------------------------------------------------------------------
-void Camera::start()
+cv::Mat AllCameras::getCalibrationFrame(uint16_t cameraID)
 {
+    cv::Mat frame(640, 320, CV_8UC3, cv::Scalar(140, 100, 15));
+
+    if(cameraID < mCameras.size())
+    {
+        return mCameras[cameraID]->getCalibrationFrame();
+    }
+    return frame;
 }
 
 // --------------------------------------------------------------------
@@ -56,47 +92,29 @@ void Camera::start()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-cv::Mat* Camera::getFrame()
+void AllCameras::calibrateCameras(void)
 {
-    return new  cv::Mat(640, 480, cv::CV_8UC3, Scalar(10, 100, 150));
-}
 
-// --------------------------------------------------------------------
-// Purpose:
-// Return the value with a dead band where it is zero
-//
-// Notes:
-// None.
-// --------------------------------------------------------------------
-cv::Mat* Camera::getCalibrationFrame()
-{
-    return new  cv::Mat(640, 480, cv::CV_8UC3, Scalar(10, 100, 150));
-}
+    for(int i=0;i<mCameras.size();i++)
+    {
+        cv::Mat frame = mCameras[i]->getCalibrationFrame();
+     
+        std::string frameFileName = PropertyFile::getInstance()->getPicturesDir();
 
-// --------------------------------------------------------------------
-// Purpose:
-// Return the value with a dead band where it is zero
-//
-// Notes:
-// None.
-// --------------------------------------------------------------------
-void Camera::setRes(uint16_t h, uint16_t v)
-{
-    uint16_t mResH = h;
-    uint16_t mResV = v;
-}
+        if(false == boost::filesystem::is_directory(frameFileName))
+        {
+            boost::filesystem::create_directory(frameFileName);
+        }
 
-// --------------------------------------------------------------------
-// Purpose:
-// Return the value with a dead band where it is zero
-//
-// Notes:
-// None.
-// --------------------------------------------------------------------
-void Camera::setBox(uint16_t topX, uint16_t topY, uint16_t botX, uint16_t botY)
-{
-    mBoxTopX = topX;
-    mBoxTopY = topY;
-    mBoxBottomX = botX;
-    mBoxbottomY = botY;
+        frameFileName += PropertyFile::getInstance()->getCalibrationDir();
+
+        if(false == boost::filesystem::is_directory(frameFileName))
+        {
+            boost::filesystem::create_directory(frameFileName);
+        }
+
+        frameFileName += "camera"+std::to_string(i)+".jpg";
+        std::cout << frameFileName << "\n";
+        cv::imwrite(frameFileName, frame);
+    }
 }

@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------
 //
-//  $Workfile: propertyFile.h$
+//  $Workfile: propertyFile.cpp$
 //
 //  $Revision: X$
 //
@@ -12,20 +12,8 @@
 //     This is the code for reading property files
 //
 //----------------------------------------------------------------------------
-
-//----------------------------------------------------------------------------
-//  Includes
-//----------------------------------------------------------------------------
-#include "JimsSerial.h"
-#include <fcntl.h> // Contains file controls like O_RDWR
-#include <stdio.h>
-#include <termios.h>
-#include <unistd.h>
-#include <iostream>
-#include <chrono>
-#include <thread>
-
-//#define SERIAL_DEBUG 1
+#include <boost/algorithm/string/replace.hpp>
+#include "Device.h"
 
 // --------------------------------------------------------------------
 // Purpose:
@@ -34,34 +22,7 @@
 // Notes:
 // None.
 // --------------------------------------------------------------------
-JimsSerial::JimsSerial(std::string portName) :
- mPortName(portName)
-{
-  openPort();
-}
-
-// --------------------------------------------------------------------
-// Purpose:
-// Return the value with a dead band where it is zero
-//
-// Notes:
-// None.
-// --------------------------------------------------------------------
-JimsSerial::JimsSerial(std::string portName, uint32_t baud) :
-  mPortName(portName),
-  mBaud(baud)
-{
-  openPort();
-}
-
-// --------------------------------------------------------------------
-// Purpose:
-// Return the value with a dead band where it is zero
-//
-// Notes:
-// None.
-// --------------------------------------------------------------------
-void JimsSerial::openPort()
+Device::Device()
 {
 }
 
@@ -72,8 +33,9 @@ void JimsSerial::openPort()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-void JimsSerial::end(void)
+void Device::setModel(std::string model)
 {
+    mModel = model;
 }
 
 // --------------------------------------------------------------------
@@ -83,9 +45,9 @@ void JimsSerial::end(void)
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool JimsSerial::flush()
+void Device::setSerialNumber(std::string serialNumber)
 {
-  return true;
+    mSerialNumber = serialNumber;
 }
 
 // --------------------------------------------------------------------
@@ -95,10 +57,9 @@ bool JimsSerial::flush()
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool JimsSerial::readBuffer(uint8_t *buffer, uint16_t len)
+void Device::setDevice(std::string device)
 {
-  size_t received = 0;
-  return received;
+    mDevice = device;
 }
 
 // --------------------------------------------------------------------
@@ -108,9 +69,9 @@ bool JimsSerial::readBuffer(uint8_t *buffer, uint16_t len)
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool JimsSerial::writeBuffer(const uint8_t *buffer, uint16_t len)
+std::string Device::getModel(void)
 {
-  return true;
+    return mModel;
 }
 
 // --------------------------------------------------------------------
@@ -120,14 +81,34 @@ bool JimsSerial::writeBuffer(const uint8_t *buffer, uint16_t len)
 // Notes:
 // None.
 // --------------------------------------------------------------------
-bool JimsSerial::writeThenRead(const uint8_t *write_buffer, uint16_t write_len,
-                      uint8_t *read_buffer, uint16_t read_len)
+std::string Device::getSerialNumber(void)
 {
-  bool results = writeBuffer(write_buffer, write_len);
-  std::this_thread::sleep_for(std::chrono::milliseconds(WAIT_TIME));
-  if(true == results)
-  {
-    results = readBuffer(read_buffer,read_len);
-  }
-  return results;
+    return mSerialNumber;
 }
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+std::string Device::getDevice(void)
+{
+    return mDevice;
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+std::string Device::getFileName(void)
+{
+    std::string fileName = getModel()+"-"+getSerialNumber()+"-"+getDevice();
+    boost::replace_all(fileName, "/", "-");
+    return fileName;
+}
+

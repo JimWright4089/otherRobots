@@ -17,7 +17,6 @@
 //  Includes
 //----------------------------------------------------------------------------
 #include "JimsGPIO.h"
-#include <wiringPi.h>
 
 const int16_t MAX_PINS = 32;
 //                           0   1   2   3  4   5   6   7   8   9  
@@ -38,7 +37,6 @@ const int16_t PIN_MAP[] = { -1, -1, -1, -1, 7, -1, -1, 11, 10, 13,
 // --------------------------------------------------------------------
 JimsInput::JimsInput()
 {
-  wiringPiSetup();  
   mPin = -1;
 }
 
@@ -51,12 +49,10 @@ JimsInput::JimsInput()
 // --------------------------------------------------------------------
 JimsInput::JimsInput(int16_t pin)
 {
-  wiringPiSetup();  
   mPin = -1;
   if((pin>0)&&(pin<MAX_PINS))
   {
     mPin = PIN_MAP[pin];
-    pinMode(mPin, INPUT) ;
   }
 }
 
@@ -69,10 +65,6 @@ JimsInput::JimsInput(int16_t pin)
 // --------------------------------------------------------------------
 bool JimsInput::read()
 {
-  if(true == valid())
-  {
-    return (1 == digitalRead(mPin));
-  }
   return false;
 }
 

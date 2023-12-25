@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------
 //
-//  $Workfile: Options.h$
+//  $Workfile: propertyFile.h$
 //
 //  $Revision: X$
 //
@@ -12,28 +12,15 @@
 //     This is the code for reading property files
 //
 //----------------------------------------------------------------------------
-#ifndef OPIONS_H
-#define OPIONS_H
+#ifndef DISPLAY_DEVICES_H
+#define DISPLAY_DEVICES_H
 
 //----------------------------------------------------------------------------
 //  Includes
 //----------------------------------------------------------------------------
-#include <string>
 
 //----------------------------------------------------------------------------
-//  Externs
+//  Global Functions
 //----------------------------------------------------------------------------
-extern bool gJustHelp;
-extern bool gVerbose;
-extern bool gCalibrate;
-extern bool gDisplayCameras;
-extern bool gCalibrateCameras;
-extern std::string gPop;
-extern std::string gLoc;
-
-//----------------------------------------------------------------------------
-//  Functions
-//----------------------------------------------------------------------------
-bool setOptionFlags(int argc, char* argv[]);
-
+void displayDevices(void);
 #endif

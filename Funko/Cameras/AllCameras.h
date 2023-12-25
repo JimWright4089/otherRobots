@@ -18,8 +18,9 @@
 //----------------------------------------------------------------------------
 //  Includes
 //----------------------------------------------------------------------------
-#include <string>
+#include <vector>
 #include <opencv2/opencv.hpp>
+#include "Camera.h"
 
 //----------------------------------------------------------------------------
 //  Class Declarations
@@ -40,13 +41,24 @@ class AllCameras
     //----------------------------------------------------------------------------
     AllCameras();
     virtual ~AllCameras() {}
-
+    cv::Mat getFrame(uint16_t cameraID);
+    cv::Mat getCalibrationFrame(uint16_t cameraID);
+    void calibrateCameras(void);
 
   private:
+    const std::string DEVICE = "device";
+    const std::string MODEL = "model";
+    const std::string SERIAL_NUMBER = "serialNumber";
+    const std::string READ_FRAMES = "readFrames";
+    const std::string TOP_X = "topX";
+    const std::string TOP_Y = "topY";
+
+    const uint16_t MAX_CAMERA = 6;
 
     //----------------------------------------------------------------------------
     //  Class Atributes
     //----------------------------------------------------------------------------
+    std::vector<Camera*> mCameras;
 
     //----------------------------------------------------------------------------
     //  Class Methods

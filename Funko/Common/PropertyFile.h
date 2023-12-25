@@ -47,6 +47,8 @@ class PropertyFile
     double getSlowSpeed();
     uint16_t getFrameWaitTimeMs();
     int16_t getDegreeOffSet();
+    int16_t getImageBoxWidth();
+    int16_t getImageBoxHeight();
     double getFastSpeed();
     double getNormalSpeed();
     double getDegreesPerPicture();
@@ -54,12 +56,17 @@ class PropertyFile
     std::string getCamerasProp();
     std::string getEncoderProp();
     std::string getPicturesDir();
+    std::string getDisplayDir();
+    std::string getCalibrationDir();
+    std::string getDisplayProp();
     std::string getPictureFileCount();
     std::string getFullCamerasProp();
     std::string getFullEncoderProp();
     std::string getFullPicturesDir();
     std::string getFullPictureFileCount();
-
+    std::string getFullDisplayDir();
+    std::string getFullDisplayProp();
+    std::string getFullCalibrationDir();
 
   private:
     PropertyFile();
