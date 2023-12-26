@@ -62,8 +62,8 @@ void Camera::start()
 // --------------------------------------------------------------------
 cv::Mat Camera::getFrame()
 {
-    cv::Mat frame(640, 320, CV_8UC3, cv::Scalar(140, 100, 15));
-    cv::Mat frameReturn(640, 320, CV_8UC3, cv::Scalar(140, 100, 15));
+    cv::Mat frame;
+    cv::Mat frameReturn;
     cv::VideoCapture capture;
     capture.open(mDevice);
 
@@ -94,7 +94,7 @@ cv::Mat Camera::getFrame()
 // --------------------------------------------------------------------
 cv::Mat Camera::getCalibrationFrame()
 {
-    cv::Mat frame(640, 320, CV_8UC3, cv::Scalar(140, 100, 15));
+    cv::Mat frame;
     cv::VideoCapture capture;
     capture.open(mDevice);
 

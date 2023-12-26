@@ -44,6 +44,8 @@ class AllCameras
     cv::Mat getFrame(uint16_t cameraID);
     cv::Mat getCalibrationFrame(uint16_t cameraID);
     void calibrateCameras(void);
+    void testFrames(void);
+    void captureFrames(void);
 
   private:
     const std::string DEVICE = "device";

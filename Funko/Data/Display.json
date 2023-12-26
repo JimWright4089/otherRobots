@@ -1,68 +1,92 @@
 {
    "/dev/video0" : {
       "device" : "/dev/video0",
-      "fileName" : "Logitech_BRIO-C2D0A783--dev-video0",
+      "fileName" : "Logitech_BRIO---dev-video0",
       "model" : "Logitech_BRIO",
-      "serialNumber" : "C2D0A783"
-   },
-   "/dev/video10" : {
-      "device" : "/dev/video10",
-      "fileName" : "Intel_R__RealSense_TM__Depth_Camera_435i-C2D0A783--dev-video10",
-      "model" : "Intel_R__RealSense_TM__Depth_Camera_435i",
-      "serialNumber" : "C2D0A783"
-   },
-   "/dev/video12" : {
-      "device" : "/dev/video12",
-      "fileName" : "081b-79B0E1B0--dev-video12",
-      "model" : "081b",
-      "serialNumber" : "79B0E1B0"
+      "serialNumber" : ""
    },
    "/dev/video14" : {
       "device" : "/dev/video14",
-      "fileName" : "Anker_PowerConf_C200-ACNV9P1D34176177--dev-video14",
-      "model" : "Anker_PowerConf_C200",
-      "serialNumber" : "ACNV9P1D34176177"
+      "fileName" : "Logitech_BRIO---dev-video14",
+      "model" : "Logitech_BRIO",
+      "serialNumber" : ""
    },
-   "/dev/video16" : {
-      "device" : "/dev/video16",
-      "fileName" : "Intel_R__RealSense_TM__Depth_Camera_435i-ACNV9P1D34176177--dev-video16",
-      "model" : "Intel_R__RealSense_TM__Depth_Camera_435i",
-      "serialNumber" : "ACNV9P1D34176177"
+   "/dev/video15" : {
+      "device" : "/dev/video15",
+      "fileName" : "Logitech_BRIO---dev-video15",
+      "model" : "Logitech_BRIO",
+      "serialNumber" : ""
    },
-   "/dev/video18" : {
-      "device" : "/dev/video18",
-      "fileName" : "Intel_R__RealSense_TM__Depth_Camera_435i-ACNV9P1D34176177--dev-video18",
+   "/dev/video17" : {
+      "device" : "/dev/video17",
+      "fileName" : "Intel_R__RealSense_TM__Depth_Camera_435i---dev-video17",
       "model" : "Intel_R__RealSense_TM__Depth_Camera_435i",
-      "serialNumber" : "ACNV9P1D34176177"
+      "serialNumber" : ""
    },
    "/dev/video2" : {
       "device" : "/dev/video2",
-      "fileName" : "Logitech_BRIO-C2D0A783--dev-video2",
+      "fileName" : "Logitech_BRIO---dev-video2",
       "model" : "Logitech_BRIO",
-      "serialNumber" : "C2D0A783"
+      "serialNumber" : ""
    },
-   "/dev/video20" : {
-      "device" : "/dev/video20",
-      "fileName" : "Intel_R__RealSense_TM__Depth_Camera_435i-C2D0A783--dev-video20",
+   "/dev/video21" : {
+      "device" : "/dev/video21",
+      "fileName" : "Logitech_BRIO---dev-video21",
+      "model" : "Logitech_BRIO",
+      "serialNumber" : ""
+   },
+   "/dev/video22" : {
+      "device" : "/dev/video22",
+      "fileName" : "Logitech_BRIO---dev-video22",
+      "model" : "Logitech_BRIO",
+      "serialNumber" : ""
+   },
+   "/dev/video24" : {
+      "device" : "/dev/video24",
+      "fileName" : "Intel_R__RealSense_TM__Depth_Camera_435i---dev-video24",
       "model" : "Intel_R__RealSense_TM__Depth_Camera_435i",
-      "serialNumber" : "C2D0A783"
+      "serialNumber" : ""
+   },
+   "/dev/video26" : {
+      "device" : "/dev/video26",
+      "fileName" : "Intel_R__RealSense_TM__Depth_Camera_435i---dev-video26",
+      "model" : "Intel_R__RealSense_TM__Depth_Camera_435i",
+      "serialNumber" : ""
+   },
+   "/dev/video28" : {
+      "device" : "/dev/video28",
+      "fileName" : "081b---dev-video28",
+      "model" : "081b",
+      "serialNumber" : ""
+   },
+   "/dev/video30" : {
+      "device" : "/dev/video30",
+      "fileName" : "Microsoft\u00ae_LifeCam_HD-3000---dev-video30",
+      "model" : "Microsoft\u00ae_LifeCam_HD-3000",
+      "serialNumber" : ""
+   },
+   "/dev/video33" : {
+      "device" : "/dev/video33",
+      "fileName" : "Anker_PowerConf_C200---dev-video33",
+      "model" : "Anker_PowerConf_C200",
+      "serialNumber" : ""
    },
    "/dev/video4" : {
       "device" : "/dev/video4",
-      "fileName" : "Microsoft\u00ae_LifeCam_HD-3000-C2D0A783--dev-video4",
-      "model" : "Microsoft\u00ae_LifeCam_HD-3000",
-      "serialNumber" : "C2D0A783"
+      "fileName" : "Intel_R__RealSense_TM__Depth_Camera_435i---dev-video4",
+      "model" : "Intel_R__RealSense_TM__Depth_Camera_435i",
+      "serialNumber" : ""
    },
    "/dev/video6" : {
       "device" : "/dev/video6",
-      "fileName" : "Intel_R__RealSense_TM__Depth_Camera_435i-C2D0A783--dev-video6",
+      "fileName" : "Intel_R__RealSense_TM__Depth_Camera_435i---dev-video6",
       "model" : "Intel_R__RealSense_TM__Depth_Camera_435i",
-      "serialNumber" : "C2D0A783"
+      "serialNumber" : ""
    },
    "/dev/video8" : {
       "device" : "/dev/video8",
-      "fileName" : "Intel_R__RealSense_TM__Depth_Camera_435i-C2D0A783--dev-video8",
+      "fileName" : "Intel_R__RealSense_TM__Depth_Camera_435i---dev-video8",
       "model" : "Intel_R__RealSense_TM__Depth_Camera_435i",
-      "serialNumber" : "C2D0A783"
+      "serialNumber" : ""
    }
 }

@@ -11,6 +11,8 @@ include_directories(./Drivers)
 include_directories(./Cameras)
 find_package(jsoncpp REQUIRED)
 find_package( OpenCV REQUIRED )
+find_library(WIRINGPI_LIBRARIES NAMES wiringPi)
+find_path(WIRINGPI_INCLUDE_DIRS NAMES wiringPi.h)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 
 # Find Boost libs.
@@ -21,5 +23,5 @@ add_executable(Funko ./Funko/Funko.cpp ./Common/Options.cpp ./Common/PropertyFil
              ./Common/PictureCountFile.cpp ./Common/EncoderSettingFile.cpp
              ./Drivers/JimsGPIO.cpp ./Drivers/JimsSerial.cpp ./Drivers/JimsRobotclaw.cpp
              ./Cameras/Device.cpp ./Cameras/DisplayDevices.cpp ./Cameras/Camera.cpp ./Cameras/AllCameras.cpp)
-target_link_libraries(Funko jsoncpp ${Boost_LIBRARIES} ${OpenCV_LIBS} udev)
+target_link_libraries(Funko jsoncpp ${Boost_LIBRARIES} ${OpenCV_LIBS} wiringPi udev)
 

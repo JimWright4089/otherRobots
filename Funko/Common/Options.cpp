@@ -32,6 +32,7 @@ bool gVerbose = false;
 bool gCalibrate = false;
 bool gDisplayCameras = false;
 bool gCalibrateCameras = false;
+bool gTestFrames = false;
 std::string gPop = "leaf";
 std::string gLoc = "ktch";
 
@@ -50,6 +51,7 @@ bool setOptionFlags(int argc, char* argv[])
         ("calibrate,t", "Just calibrate the table")
         ("display,d", "display all of the capture video devices")
         ("camera,c", "create the calibration frames")
+        ("frames,f", "create the test frames")
         ("verbose,v", "print lots of debug junk")
         ("pop,p", boost::program_options::value<std::string>(&gPop)->default_value("leaf"), "four char Funko Pop (leaf, boba, luke, hup, twin, phin, ezra, boo, sull, ches)")
         ("loc,l", boost::program_options::value<std::string>(&gLoc)->default_value("ktch"), "four char Location (ktch, tv, dine, bhal, fhal, lliv, rliv, bliv)")
@@ -71,6 +73,10 @@ bool setOptionFlags(int argc, char* argv[])
 
         if (optionsEntered.count("camera")) {
             gCalibrateCameras = true;
+        }
+
+        if (optionsEntered.count("frames")) {
+            gTestFrames = true;
         }
 
         if (optionsEntered.count("display")) {

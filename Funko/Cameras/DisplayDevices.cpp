@@ -22,8 +22,8 @@
 #include <opencv2/opencv.hpp>
 #include "DisplayDevices.h"
 #include "Device.h"
+#include "Options.h"
 #include "PropertyFile.h"
-
 
 //----------------------------------------------------------------------------
 //  Local Variables
@@ -38,7 +38,7 @@ const std::string FILE_NAME = "fileName";
 //----------------------------------------------------------------------------
 std::vector<Device*> lDevices;
 
-#define DEBUG
+//#define DEBUG
 
 // --------------------------------------------------------------------
 // Purpose:
@@ -127,8 +127,16 @@ void displayDevices(void)
     }
   }
 
-  Json::Value displayJSON;
+  if(true == gVerbose)
+  {
+    std::cout << "deivces to try:" << "\n";
+    for(Device* fileName : lDevices)
+    {
+      std::cout << "  " << fileName->getFileName() << "\n";
+    }
+  }
 
+  Json::Value displayJSON;
   for(Device* fileName : lDevices)
   {
     std::string frameFileName = PropertyFile::getInstance()->getPicturesDir();
@@ -155,6 +163,13 @@ void displayDevices(void)
     for(int j=0;j<60;j++)
     {
         capture >> frame;
+
+        if(frame.empty())
+        {
+          std::cout << "Did not get a frame, skipping\n";
+          break;
+        }
+
     }
     if (!frame.empty())
     {

@@ -156,6 +156,11 @@ int main(int argc, char* argv[])
 
     if(true == gCalibrate)
     {
+        if(true == gVerbose)
+        {
+            std::cout << "Calibrate:\n";
+        }
+
         encoderFile.calibrateEncoders(&gMagnet,&gMotor);
         return 0;
     }
@@ -169,6 +174,12 @@ int main(int argc, char* argv[])
     if(true == gCalibrateCameras)
     {
         allCameras.calibrateCameras();
+        return 0;
+    }
+
+    if(true == gTestFrames)
+    {
+        allCameras.testFrames();
         return 0;
     }
 

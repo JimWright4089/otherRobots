@@ -162,8 +162,19 @@ void EncoderSettingFile::calibrateEncoders(JimsInput* magnet, JimsRobotClaw* mot
         std::this_thread::sleep_for(std::chrono::milliseconds(frameWaitTimeMs));
         encoder = motor->getRightEncoder();
         value = magnet->read();
+
+        if(true == gVerbose)
+        {
+            std::cout << "encoder:"<< encoder << " magnet:"  << value << "\n";
+        }
+
     }
     std::this_thread::sleep_for(std::chrono::milliseconds(frameWaitTimeMs*25));
+
+    if(true == gVerbose)
+    {
+        std::cout << "Moved off magnet\n";
+    }
 
     ///////////////////////////////////////////////////////////////////////
     // Find The magnet
@@ -179,6 +190,11 @@ void EncoderSettingFile::calibrateEncoders(JimsInput* magnet, JimsRobotClaw* mot
     motor->setRightMotor(0);
     motor->setRightEncoder(0);
 
+    if(true == gVerbose)
+    {
+        std::cout << "Found magnet\n";
+    }
+
     ///////////////////////////////////////////////////////////////////////
     // Find The magnet's size
     ///////////////////////////////////////////////////////////////////////
@@ -192,6 +208,11 @@ void EncoderSettingFile::calibrateEncoders(JimsInput* magnet, JimsRobotClaw* mot
     motor->setRightMotor(0);
     mMagnetSize = encoder;
     mHalfMagnetsize = mMagnetSize/2;
+
+    if(true == gVerbose)
+    {
+        std::cout << "Found magnet size\n";
+    }
 
     ///////////////////////////////////////////////////////////////////////
     // Find The disk's size
@@ -208,6 +229,11 @@ void EncoderSettingFile::calibrateEncoders(JimsInput* magnet, JimsRobotClaw* mot
     mDiskSize = encoder;
     mTicksPerDegree = ((double)mDiskSize+(double)mMagnetSize)/360.0;
 
+    if(true == gVerbose)
+    {
+        std::cout << "Found disk size\n";
+    }
+
     ///////////////////////////////////////////////////////////////////////
     // Center on the magnet
     ///////////////////////////////////////////////////////////////////////
@@ -223,6 +249,11 @@ void EncoderSettingFile::calibrateEncoders(JimsInput* magnet, JimsRobotClaw* mot
     motor->setRightMotor(0);
     motor->setRightEncoder(0);
 
+    if(true == gVerbose)
+    {
+        std::cout << "Centered\n";
+    }
+
     Json::Value status;
 
     status[MAGNET_SIZE] = mMagnetSize;
@@ -237,5 +268,3 @@ void EncoderSettingFile::calibrateEncoders(JimsInput* magnet, JimsRobotClaw* mot
     magFile.close();
     print();
 }
-
-

@@ -94,7 +94,6 @@ cv::Mat AllCameras::getCalibrationFrame(uint16_t cameraID)
 // --------------------------------------------------------------------
 void AllCameras::calibrateCameras(void)
 {
-
     for(int i=0;i<mCameras.size();i++)
     {
         cv::Mat frame = mCameras[i]->getCalibrationFrame();
@@ -114,6 +113,70 @@ void AllCameras::calibrateCameras(void)
         }
 
         frameFileName += "camera"+std::to_string(i)+".jpg";
+        std::cout << frameFileName << "\n";
+        cv::imwrite(frameFileName, frame);
+    }
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+void AllCameras::testFrames(void)
+{
+    for(int i=0;i<mCameras.size();i++)
+    {
+        cv::Mat frame = mCameras[i]->getFrame();
+        std::string frameFileName = PropertyFile::getInstance()->getPicturesDir();
+
+        if(false == boost::filesystem::is_directory(frameFileName))
+        {
+            boost::filesystem::create_directory(frameFileName);
+        }
+
+        frameFileName += PropertyFile::getInstance()->getCalibrationDir();
+
+        if(false == boost::filesystem::is_directory(frameFileName))
+        {
+            boost::filesystem::create_directory(frameFileName);
+        }
+
+        frameFileName += "testframe"+std::to_string(i)+".jpg";
+        std::cout << frameFileName << "\n";
+        cv::imwrite(frameFileName, frame);
+    }
+}
+
+// --------------------------------------------------------------------
+// Purpose:
+// Return the value with a dead band where it is zero
+//
+// Notes:
+// None.
+// --------------------------------------------------------------------
+void AllCameras::captureFrames(void)
+{
+    for(int i=0;i<mCameras.size();i++)
+    {
+        cv::Mat frame = mCameras[i]->getFrame();
+        std::string frameFileName = PropertyFile::getInstance()->getPicturesDir();
+
+        if(false == boost::filesystem::is_directory(frameFileName))
+        {
+            boost::filesystem::create_directory(frameFileName);
+        }
+
+        frameFileName += PropertyFile::getInstance()->getCalibrationDir();
+
+        if(false == boost::filesystem::is_directory(frameFileName))
+        {
+            boost::filesystem::create_directory(frameFileName);
+        }
+
+        frameFileName += "testframe"+std::to_string(i)+".jpg";
         std::cout << frameFileName << "\n";
         cv::imwrite(frameFileName, frame);
     }

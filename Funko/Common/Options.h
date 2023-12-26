@@ -28,6 +28,7 @@ extern bool gVerbose;
 extern bool gCalibrate;
 extern bool gDisplayCameras;
 extern bool gCalibrateCameras;
+extern bool gTestFrames;
 extern std::string gPop;
 extern std::string gLoc;
 
