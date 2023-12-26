@@ -21,6 +21,7 @@
 #include <vector>
 #include <opencv2/opencv.hpp>
 #include "Camera.h"
+#include "PictureCountFile.h"
 
 //----------------------------------------------------------------------------
 //  Class Declarations
@@ -45,7 +46,7 @@ class AllCameras
     cv::Mat getCalibrationFrame(uint16_t cameraID);
     void calibrateCameras(void);
     void testFrames(void);
-    void captureFrames(void);
+    void captureFrames(PictureCountFile* countFile);
 
   private:
     const std::string DEVICE = "device";

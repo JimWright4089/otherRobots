@@ -15,6 +15,9 @@
 #include <json/json.h>
 #include <iostream>
 #include <fstream>
+#include <chrono>
+#include <thread>
+#include <opencv2/opencv.hpp>
 #include <boost/filesystem.hpp>
 #include "PropertyFile.h"
 #include "Options.h"
@@ -157,27 +160,66 @@ void AllCameras::testFrames(void)
 // Notes:
 // None.
 // --------------------------------------------------------------------
-void AllCameras::captureFrames(void)
+void AllCameras::captureFrames(PictureCountFile* countFile)
 {
+
     for(int i=0;i<mCameras.size();i++)
     {
-        cv::Mat frame = mCameras[i]->getFrame();
-        std::string frameFileName = PropertyFile::getInstance()->getPicturesDir();
-
-        if(false == boost::filesystem::is_directory(frameFileName))
+        cv::Mat frame;
+        bool good  = false;
+        for(int retry=0;retry<5;retry++)
         {
-            boost::filesystem::create_directory(frameFileName);
+            frame = mCameras[i]->getFrame();
+            if (!frame.empty())
+            {
+                good = true;
+                break;
+            }
+            std::cout << "Camera" << i << " retry:" << retry <<"\n";
+            std::this_thread::sleep_for(std::chrono::milliseconds(300));
         }
-
-        frameFileName += PropertyFile::getInstance()->getCalibrationDir();
-
-        if(false == boost::filesystem::is_directory(frameFileName))
+        if(true == good)
         {
-            boost::filesystem::create_directory(frameFileName);
-        }
+            std::string camera = "camera"+std::to_string(i);
+            std::string fileName = gPop+"-"+gLoc+"-"+camera+"-"+countFile->getFileName(gPop,gLoc,camera)+".jpg";
 
-        frameFileName += "testframe"+std::to_string(i)+".jpg";
-        std::cout << frameFileName << "\n";
-        cv::imwrite(frameFileName, frame);
+            countFile->addToFileNameCount(gPop,gLoc,camera);
+            std::string directoryName = PropertyFile::getInstance()->getFullPicturesDir();
+
+            if(false == boost::filesystem::is_directory(directoryName))
+            {
+                boost::filesystem::create_directory(directoryName);
+            }
+
+            directoryName += gPop+"/";
+
+            if(false == boost::filesystem::is_directory(directoryName))
+            {
+                boost::filesystem::create_directory(directoryName);
+            }
+
+            directoryName += gLoc+"/";
+
+            if(false == boost::filesystem::is_directory(directoryName))
+            {
+                boost::filesystem::create_directory(directoryName);
+            }
+
+            directoryName += camera+"/";
+
+            if(false == boost::filesystem::is_directory(directoryName))
+            {
+                boost::filesystem::create_directory(directoryName);
+            }
+
+            directoryName += fileName;
+            cv::imwrite(directoryName, frame);
+
+            if(true == gVerbose)
+            {
+                std::cout << directoryName << "\n";
+            }
+
+        }
     }
 }
