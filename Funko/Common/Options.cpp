@@ -25,7 +25,7 @@
 //#include <boost/token_functions.hpp>
 
 const std::string ALL_POPS[] = {"leaf", "boba", "luke", "hup", "twin", "phin", "ezra", "boo", "sull", "ches"};
-const std::string ALL_LOCS[] = {"ktch", "tv", "dine", "bhal", "fhal", "lliv", "rliv", "bliv"};
+const std::string ALL_LOCS[] = {"ktch", "tv", "dine", "bhal", "fhal", "lliv", "rliv", "bliv", "shp1", "shp2"};
 
 bool gJustHelp = false;
 bool gVerbose = false;
@@ -33,6 +33,7 @@ bool gCalibrate = false;
 bool gDisplayCameras = false;
 bool gCalibrateCameras = false;
 bool gTestFrames = false;
+uint16_t gStartFrame = 0;
 std::string gPop = "leaf";
 std::string gLoc = "ktch";
 
@@ -52,6 +53,7 @@ bool setOptionFlags(int argc, char* argv[])
         ("display,d", "display all of the capture video devices")
         ("camera,c", "create the calibration frames")
         ("frames,f", "create the test frames")
+        ("start,s", boost::program_options::value<uint16_t>(&gStartFrame)->default_value(0),"start picture")        
         ("verbose,v", "print lots of debug junk")
         ("pop,p", boost::program_options::value<std::string>(&gPop)->default_value("leaf"), "four char Funko Pop (leaf, boba, luke, hup, twin, phin, ezra, boo, sull, ches)")
         ("loc,l", boost::program_options::value<std::string>(&gLoc)->default_value("ktch"), "four char Location (ktch, tv, dine, bhal, fhal, lliv, rliv, bliv)")

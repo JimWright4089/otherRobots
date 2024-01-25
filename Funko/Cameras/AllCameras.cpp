@@ -162,7 +162,6 @@ void AllCameras::testFrames(void)
 // --------------------------------------------------------------------
 void AllCameras::captureFrames(PictureCountFile* countFile)
 {
-
     for(int i=0;i<mCameras.size();i++)
     {
         cv::Mat frame;
@@ -176,7 +175,7 @@ void AllCameras::captureFrames(PictureCountFile* countFile)
                 break;
             }
             std::cout << "Camera" << i << " retry:" << retry <<"\n";
-            std::this_thread::sleep_for(std::chrono::milliseconds(300));
+            std::this_thread::sleep_for(std::chrono::milliseconds(1500));
         }
         if(true == good)
         {

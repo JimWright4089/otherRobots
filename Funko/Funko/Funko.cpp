@@ -64,6 +64,11 @@ void centerOnMagnet(int32_t mHalfMagnetsize)
     double normalSpeed = 0.0;
     uint16_t frameWaitTimeMs = 20;
 
+    if(true == gVerbose)
+    {
+        std::cout << "Centering Pop\n";
+    }
+
     fastSpeed = PropertyFile::getInstance()->getFastSpeed();
     normalSpeed = PropertyFile::getInstance()->getNormalSpeed();
     frameWaitTimeMs = PropertyFile::getInstance()->getFrameWaitTimeMs();
@@ -139,6 +144,8 @@ int main(int argc, char* argv[])
     EncoderSettingFile encoderFile(PropertyFile::getInstance()->getFullEncoderProp());
     PictureCountFile pictureCountFile(PropertyFile::getInstance()->getFullPictureFileCount());
     AllCameras allCameras;
+    uint16_t startingFrameFile = 0;
+    uint16_t curFrame=0;
 
     if(false == setOptionFlags(argc, argv))
     {
@@ -188,7 +195,7 @@ int main(int argc, char* argv[])
 
     centerOnMagnet(encoderFile.getHalfMagnetSize());
 
-    for(int i=0;i<numberOfPictures;i++)
+    for(curFrame=0;curFrame<gStartFrame;curFrame++)
     {
         if(true == gVerbose)
         {
@@ -201,12 +208,49 @@ int main(int argc, char* argv[])
             theTime -= minutes;
             int seconds = 60*theTime;
             char timeString[30];
-            double percent = ((double)i/(double)numberOfPictures)*100.0;
+            double percent = ((double)curFrame/(double)numberOfPictures)*100.0;
 
             snprintf(timeString,30,"%d:%02d %6.2f",minutes,seconds,percent);
 
+            std::cout << "Skipping Frame#" << curFrame << " ";
             std::cout << "Picture at ";
-            std::cout << i*degreesPerPicture << "° ";
+            std::cout << curFrame*degreesPerPicture << "° ";
+            std::cout << gMotor.getRightEncoder() << " ";
+            std::cout << (uint32_t)((encoderFile.getTicksPerDegree()*degreesPerPicture)+.5) << "  ";
+            std::cout << timeString << "%\n";
+        }
+
+        for(int cam=0;cam<6;cam++)
+        {
+            std::string camera = "camera"+std::to_string(cam);
+            pictureCountFile.addToFileNameCount(gPop,gLoc,camera);
+        }
+
+        turnDegrees((uint32_t)((encoderFile.getTicksPerDegree()*degreesPerPicture)+.5));
+    }
+
+
+
+    for(;curFrame<numberOfPictures;curFrame++)
+    {
+        if(true == gVerbose)
+        {
+            auto curTime = std::chrono::high_resolution_clock::now();
+            std::chrono::milliseconds duration =  std::chrono::duration_cast<std::chrono::milliseconds>(curTime - beginTime);
+            double theTime = duration.count();
+            theTime /= 1000;
+            theTime /= 60;
+            int minutes = (int)theTime;
+            theTime -= minutes;
+            int seconds = 60*theTime;
+            char timeString[30];
+            double percent = ((double)curFrame/(double)numberOfPictures)*100.0;
+
+            snprintf(timeString,30,"%d:%02d %6.2f",minutes,seconds,percent);
+
+            std::cout << "Frame#" << curFrame << " ";
+            std::cout << "Picture at ";
+            std::cout << curFrame*degreesPerPicture << "° ";
             std::cout << gMotor.getRightEncoder() << " ";
             std::cout << (uint32_t)((encoderFile.getTicksPerDegree()*degreesPerPicture)+.5) << "  ";
             std::cout << timeString << "%\n";
